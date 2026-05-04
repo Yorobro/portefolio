@@ -37,10 +37,7 @@
 
 <header class="page-header">
   <h1>Projets</h1>
-  <p class="subtitle">
-    Une sélection de mes projets, regroupés par catégorie : personnels, universitaires et
-    compétitifs.
-  </p>
+  <p class="subtitle">Une sélection de mes projets, regroupés par catégorie.</p>
 </header>
 
 <div class="categories">
@@ -66,16 +63,16 @@
     margin-bottom: var(--space-12);
   }
 
+  /* Categories stack on small screens, sit side-by-side on wide screens. */
   .categories {
     display: grid;
-    gap: var(--space-8);
+    gap: var(--space-12);
     grid-template-columns: 1fr;
   }
 
-  /* Side-by-side layout once there's enough room (≈ 960px+) */
   @media (min-width: 60rem) {
     .categories {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       align-items: start;
     }
   }
@@ -84,9 +81,17 @@
     margin-bottom: var(--space-4);
   }
 
+  /* Cards within a category: one column by default; on very wide screens
+     where the page is roomy enough, two columns inside each category so
+     all four projects remain visible without scrolling. */
   .cards {
     display: grid;
     gap: var(--space-4);
     grid-template-columns: 1fr;
+  }
+  @media (min-width: 90rem) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>

@@ -79,10 +79,10 @@ skills:
     category: devops
     level: intermediate
   - name: Docker
-    category: devops
+    category: deployment
     level: intermediate
   - name: Flyway
-    category: devops
+    category: deployment
     level: intermediate
   - name: Visual Paradigm
     category: design

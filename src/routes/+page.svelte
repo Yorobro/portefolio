@@ -3,6 +3,7 @@
   import ProjectCard from '$components/ProjectCard.svelte';
   import StatusBadge from '$components/StatusBadge.svelte';
   import ContactInfo from '$components/ContactInfo.svelte';
+  import SoftSkills from '$components/SoftSkills.svelte';
   let { data } = $props();
 </script>
 
@@ -54,6 +55,14 @@
   </div>
 </section>
 
+{#if data.softSkills.length > 0}
+  <section class="soft-skills">
+    <h2>Comment je travaille</h2>
+    <p class="subtitle">Ce qui me caractérise au-delà des outils techniques.</p>
+    <SoftSkills skills={data.softSkills} />
+  </section>
+{/if}
+
 <section class="contact">
   <h2>Me contacter</h2>
   <p class="subtitle">
@@ -93,9 +102,11 @@
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     margin-top: var(--space-4);
   }
+  .soft-skills,
   .contact {
     margin-top: var(--space-16);
   }
+  .soft-skills h2,
   .contact h2 {
     margin-bottom: var(--space-2);
   }

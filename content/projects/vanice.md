@@ -4,7 +4,7 @@ title: Vanice
 summary: Mod technique endgame pour Minecraft développé en Kotlin sur NeoForge, en équipe de deux.
 type: personal
 status: in-progress
-featured: true
+featured: false
 dateStart: 2024-06-01
 stack:
   - Kotlin

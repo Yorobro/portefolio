@@ -1,8 +1,6 @@
 <script lang="ts">
   import Timeline from '$components/Timeline.svelte';
   import TimelineItem from '$components/TimelineItem.svelte';
-  import Tag from '$components/Tag.svelte';
-  import type { SkillViewModel } from '$presentation/view-models/SkillViewModel';
   let { data } = $props();
 
   const formatRange = (start: string, end: string | null): string => {
@@ -10,22 +8,22 @@
       new Date(iso).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     return `${fmt(start)} — ${end ? fmt(end) : 'présent'}`;
   };
-
-  // Group skills by category
-  const groups = $derived(
-    data.skills.reduce<Record<string, SkillViewModel[]>>((acc, s) => {
-      (acc[s.category] ??= []).push(s);
-      return acc;
-    }, {}),
-  );
 </script>
 
-<svelte:head><title>Parcours — Yohan Finelle</title></svelte:head>
+<svelte:head>
+  <title>Parcours — Yohan Finelle</title>
+  <meta
+    name="description"
+    content="Parcours professionnel de Yohan Finelle : alternances et stages dans le développement logiciel."
+  />
+</svelte:head>
 
-<h1>Parcours</h1>
+<header class="page-header">
+  <h1>Parcours</h1>
+  <p class="subtitle">Mes expériences professionnelles, du plus récent au plus ancien.</p>
+</header>
 
 <section>
-  <h2>Expériences</h2>
   <Timeline>
     {#each data.experiences as e (e.company + e.dateStartIso)}
       <TimelineItem
@@ -44,33 +42,8 @@
   </Timeline>
 </section>
 
-<section>
-  <h2>Compétences</h2>
-  {#each Object.entries(groups) as [category, skills] (category)}
-    <div class="group">
-      <span class="caption">{category}</span>
-      <ul class="tags">
-        {#each skills as s (s.name)}
-          <li><Tag>{s.name}</Tag></li>
-        {/each}
-      </ul>
-    </div>
-  {/each}
-</section>
-
 <style>
-  section {
-    margin-top: var(--space-12);
-  }
-  .group {
-    margin: var(--space-4) 0;
-  }
-  .tags {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-2) 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+  .page-header {
+    margin-bottom: var(--space-12);
   }
 </style>

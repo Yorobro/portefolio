@@ -4,7 +4,7 @@ title: A.I.E
 summary: Application WPF d'arbre généalogique en MVVM, développée en équipe de cinq avec une CI/CD GitHub Actions.
 type: academic
 status: finished
-featured: false
+featured: true
 dateStart: 2024-01-01
 dateEnd: 2024-04-30
 stack:
