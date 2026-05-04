@@ -5,7 +5,6 @@
     { href: '/', label: 'Accueil' },
     { href: '/projets', label: 'Projets' },
     { href: '/parcours', label: 'Parcours' },
-    { href: '/contact', label: 'Contact' },
   ];
 </script>
 
@@ -28,8 +27,10 @@
 </header>
 
 <style>
+  /* Three-column grid: brand on the left, nav centered, status on the right */
   header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: var(--space-6);
     padding: var(--space-4) var(--space-6);
@@ -38,13 +39,17 @@
   .brand {
     font-weight: 600;
     letter-spacing: -0.01em;
+    justify-self: start;
+  }
+  nav {
+    justify-self: center;
   }
   nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
   nav a {
     color: var(--color-text-secondary);
@@ -54,6 +59,6 @@
     color: var(--color-accent);
   }
   header > :last-child {
-    margin-left: auto;
+    justify-self: end;
   }
 </style>
