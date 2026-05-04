@@ -35,37 +35,63 @@
 
 <svelte:head><title>Projets — Yohan Finelle</title></svelte:head>
 
-<h1>Projets</h1>
-<p class="subtitle">
-  Une sélection de mes projets, regroupés par catégorie : personnels, universitaires et compétitifs.
-</p>
+<header class="page-header">
+  <h1>Projets</h1>
+  <p class="subtitle">
+    Une sélection de mes projets, regroupés par catégorie : personnels, universitaires et
+    compétitifs.
+  </p>
+</header>
 
-{#each grouped as group (group.type)}
-  {#if group.projects.length > 0}
-    <section class="category">
-      <header>
-        <h2>{group.label}</h2>
-        <p class="subtitle">{group.description}</p>
-      </header>
-      <div class="grid">
-        {#each group.projects as p (p.slug)}
-          <ProjectCard project={p} />
-        {/each}
-      </div>
-    </section>
-  {/if}
-{/each}
+<div class="categories">
+  {#each grouped as group (group.type)}
+    {#if group.projects.length > 0}
+      <section class="category">
+        <header class="category-header">
+          <h2>{group.label}</h2>
+          <p class="subtitle">{group.description}</p>
+        </header>
+        <div class="cards">
+          {#each group.projects as p (p.slug)}
+            <ProjectCard project={p} />
+          {/each}
+        </div>
+      </section>
+    {/if}
+  {/each}
+</div>
 
 <style>
-  .category {
-    margin-top: var(--space-12);
+  /* Override the global container max-width for this page so 3 categories breathe */
+  :global(main:has(.categories)) {
+    max-width: 76rem;
   }
-  .category header {
+
+  .page-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .categories {
+    display: grid;
+    gap: var(--space-8);
+    grid-template-columns: 1fr;
+  }
+
+  /* Side-by-side layout once there's enough room (≈ 960px+) */
+  @media (min-width: 60rem) {
+    .categories {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: start;
+    }
+  }
+
+  .category-header {
     margin-bottom: var(--space-4);
   }
-  .grid {
+
+  .cards {
     display: grid;
     gap: var(--space-4);
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-template-columns: 1fr;
   }
 </style>

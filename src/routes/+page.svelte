@@ -33,7 +33,7 @@
 
 <section class="hero">
   <StatusBadge label="Disponible · sept. 2026" />
-  <p class="display" aria-hidden="true">Yohan</p>
+  <p class="display" aria-hidden="true">Yohan Finelle.</p>
   <h1>Étudiant ingénieur logiciel fullstack.</h1>
   <p class="subtitle">
     BUT Informatique. Spring Boot, Angular, Clean Architecture. En recherche d'alternance pour
@@ -69,10 +69,10 @@
     gap: var(--space-4);
   }
   .display {
-    font-size: clamp(4rem, 12vw, 8rem);
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
     font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: var(--color-text);
     margin: var(--space-2) 0 0;
   }
