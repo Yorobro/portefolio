@@ -14,8 +14,13 @@ import { createListExperiences } from '$application/use-cases/ListExperiences';
 import { createListSkills } from '$application/use-cases/ListSkills';
 import { createSubmitContactMessage } from '$application/use-cases/SubmitContactMessage';
 import { loadEnv } from '$server/env';
+import { env as dynamicPrivateEnv } from '$env/dynamic/private';
+import { env as dynamicPublicEnv } from '$env/dynamic/public';
 
-const env = loadEnv();
+// Vite/SvelteKit loads `.env` files into `$env/dynamic/{private,public}`, not
+// into `process.env`. We merge both into the source for `loadEnv` (which
+// defaults to `process.env` for non-SvelteKit callers like tests/scripts).
+const env = loadEnv({ ...process.env, ...dynamicPrivateEnv, ...dynamicPublicEnv });
 
 const db = createDb({
   databasePath: env.DATABASE_PATH,
