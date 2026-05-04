@@ -16,7 +16,6 @@ stack:
   - MySQL
   - Docker
   - Flyway
-repoUrl: https://github.com/yohanfinelle/deardiary
 highlights:
   - Architecture hexagonale stricte (ports & adapters) côté back
   - Atomic Design rigoureux (atomes / molécules / organismes) côté front

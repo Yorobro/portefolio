@@ -1,7 +1,7 @@
 <footer>
   <p>© {new Date().getFullYear()} Yohan Finelle</p>
   <ul>
-    <li><a href="https://github.com/yohanfinelle" rel="me">GitHub</a></li>
+    <li><a href="https://github.com/Yorobro" rel="me">GitHub</a></li>
     <li><a href="mailto:yohan.finelle@gmail.com">Email</a></li>
   </ul>
 </footer>

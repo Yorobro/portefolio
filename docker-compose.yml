@@ -10,7 +10,7 @@
 
 services:
   portfolio:
-    image: ghcr.io/yohanfinelle/portfolio:latest
+    image: ghcr.io/yorobro/portefolio:latest
     build:
       context: .
       dockerfile: Dockerfile
