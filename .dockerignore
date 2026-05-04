@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.svelte-kit
+build
+dist
+.output
+
+# Git/CI
+.git
+.github
+
+# Docs (not needed in image)
+docs
+
+# Tests
+tests
+*.test.ts
+coverage
+
+# Local dev artifacts
+.superpowers
+.env
+.env.local
+*.log
+
+# IDE
+.vscode
+.idea
+
+# Personal docs (the CV file at the repo root — the actual served CV is at static/cv.pdf)
+Yohan_FINELLE_CV.pdf
+
+# Local SQLite DB (don't bake it into the image)
+portfolio.db
+portfolio.db-shm
+portfolio.db-wal
