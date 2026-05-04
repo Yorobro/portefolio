@@ -5,7 +5,8 @@
 
   type SkillCategory = SkillViewModel['category'];
 
-  // Display order + French labels for each skill category.
+  // Display order + French labels for each technical skill category.
+  // Soft skills are surfaced on the home page instead, not here.
   const categories: ReadonlyArray<{ key: SkillCategory; label: string; description: string }> = [
     {
       key: 'language',
@@ -24,18 +25,18 @@
     },
     {
       key: 'devops',
-      label: 'DevOps & déploiement',
-      description: 'Versionnage, CI/CD et conteneurisation.',
+      label: 'DevOps',
+      description: 'Versionnage de code et chaînes CI/CD.',
+    },
+    {
+      key: 'deployment',
+      label: 'Déploiement',
+      description: 'Conteneurisation et migrations applicatives.',
     },
     {
       key: 'design',
       label: 'Conception & design',
       description: 'Outils de modélisation et de maquettage.',
-    },
-    {
-      key: 'soft',
-      label: 'Soft skills',
-      description: 'Qualités personnelles et façons de travailler.',
     },
   ];
 
