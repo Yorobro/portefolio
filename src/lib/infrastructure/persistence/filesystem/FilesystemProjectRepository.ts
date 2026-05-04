@@ -55,6 +55,12 @@ export function createFilesystemProjectRepository(
           media.push(asset.value);
         }
 
+        // The frontmatter's `architecture` field is markdown text. Render it to
+        // HTML so the page can `{@html ...}` it as a real formatted section.
+        const architectureHtml = fm.data.architecture
+          ? (await parseMarkdown(fm.data.architecture)).html
+          : undefined;
+
         const project = Project.create({
           slug: slug.value,
           title: fm.data.title,
@@ -68,7 +74,7 @@ export function createFilesystemProjectRepository(
           repoUrl: fm.data.repoUrl,
           liveUrl: fm.data.liveUrl,
           media,
-          architecture: fm.data.architecture,
+          architecture: architectureHtml,
           highlights: fm.data.highlights,
         });
         if (!project.ok) return Result.err(project.error);

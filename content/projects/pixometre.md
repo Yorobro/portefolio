@@ -1,7 +1,7 @@
 ---
 slug: pixometre
 title: PIXomètre
-summary: Application web PHP / Laravel développée en équipe pour faciliter l'organisation des sessions de certification PIX.
+summary: Application web PHP en architecture MVC stricte, développée en équipe pour aider les enseignants à gérer leurs sessions PIX.
 type: academic
 status: finished
 featured: false
@@ -9,29 +9,27 @@ dateStart: 2024-09-01
 dateEnd: 2024-12-31
 stack:
   - PHP
-  - Laravel
+  - MVC
   - MySQL
 highlights:
-  - Application full-stack PHP / Laravel
-  - Gestion des sessions, des candidats et des résultats
+  - Architecture MVC stricte, sans framework
+  - Outil métier pensé pour les enseignants organisateurs de sessions PIX
+  - "Gestion complète d'une session : planification, candidats, résultats"
   - Travail en équipe avec Git
-  - Interface utilisateur orientée organisateur de sessions
 media: []
 ---
 
-PIXomètre est un projet universitaire mené en équipe à l'IUT. La problématique était
-concrète : faciliter le travail des organisateurs de sessions PIX (la certification
-française des compétences numériques). L'application devait permettre de planifier les
-sessions, gérer les inscriptions des candidats, et suivre les résultats une fois les
-épreuves passées.
+PIXomètre est un projet universitaire mené en équipe à l'IUT. L'objectif est concret :
+permettre aux enseignants de gérer leurs sessions PIX, la certification française des
+compétences numériques. L'outil couvre la planification des sessions, le suivi des
+candidats et la consultation des résultats.
 
-Nous avons développé l'application en PHP avec le framework Laravel, sur une base de
-données MySQL. Le périmètre fonctionnel couvre la création et l'édition de sessions,
-l'inscription et le suivi des candidats, et la consultation des résultats par
-l'organisateur. L'interface est pensée pour un usage administratif : tableaux denses,
-filtres, et actions groupées.
+Nous avons développé l'application en PHP pur, sans framework, en suivant une
+architecture MVC stricte. La base de données est MySQL. Cette contrainte « no
+framework » nous a obligés à structurer nous-mêmes le routage, le rendu des vues et
+l'accès aux données — un excellent exercice pour comprendre ce que les frameworks
+modernes font sous le capot.
 
-Le projet a été un bon exercice de coordination en équipe — découpage des écrans,
-revue de code via Git, et alignement régulier sur les choix techniques. Il m'a permis
-de consolider mes bases sur l'écosystème PHP moderne avant de retrouver Laravel et des
-contextes PHP plus avancés en alternance.
+L'interface est pensée pour un usage côté enseignant : tableaux denses, filtres, et
+actions groupées. Le projet a aussi été un bon exercice de coordination en équipe —
+découpage des écrans, revues via Git, et alignement régulier sur les choix techniques.

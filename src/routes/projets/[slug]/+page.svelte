@@ -1,8 +1,18 @@
 <script lang="ts">
   import Button from '$components/Button.svelte';
   import Tag from '$components/Tag.svelte';
+  import Lightbox from '$components/Lightbox.svelte';
+  import type { ProjectMediaViewModel } from '$presentation/view-models/ProjectDetailViewModel';
   let { data } = $props();
   const p = $derived(data.project);
+
+  let activeMedia: ProjectMediaViewModel | undefined = $state();
+  function openMedia(m: ProjectMediaViewModel): void {
+    activeMedia = m;
+  }
+  function closeMedia(): void {
+    activeMedia = undefined;
+  }
 </script>
 
 <svelte:head>
@@ -51,18 +61,37 @@
   {/if}
 
   {#if p.media.length > 0}
-    <section class="media">
-      {#each p.media as m (m.src)}
-        {#if m.type === 'image' || m.type === 'gif'}
-          <figure>
-            <img src={m.src} alt={m.alt} loading="lazy" />
-            {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
-          </figure>
-        {/if}
-      {/each}
+    <section>
+      <h2>Aperçu</h2>
+      <div class="media">
+        {#each p.media as m (m.src)}
+          {#if m.type === 'image' || m.type === 'gif'}
+            <figure>
+              <button
+                type="button"
+                class="frame"
+                aria-label={`Agrandir : ${m.alt}`}
+                onclick={() => openMedia(m)}
+              >
+                <img src={m.src} alt={m.alt} loading="lazy" />
+              </button>
+              {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
+            </figure>
+          {/if}
+        {/each}
+      </div>
     </section>
   {/if}
 </article>
+
+{#if activeMedia}
+  <Lightbox
+    src={activeMedia.src}
+    alt={activeMedia.alt}
+    caption={activeMedia.caption}
+    onClose={closeMedia}
+  />
+{/if}
 
 <style>
   article {
@@ -90,14 +119,46 @@
   }
   .media {
     display: grid;
-    gap: var(--space-4);
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+  }
+  @media (min-width: 48rem) {
+    .media {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   figure {
     margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  /* Frame the image: rounded border, subtle background, clickable to open lightbox.
+     Let the image dictate its own aspect ratio so we don't crop UI screenshots. */
+  .frame {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    padding: 0;
+    cursor: zoom-in;
+    transition:
+      border-color 120ms ease,
+      transform 120ms ease;
+  }
+  .frame:hover,
+  .frame:focus-visible {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .frame img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   figcaption {
     color: var(--color-text-muted);
     font-size: var(--font-size-small);
-    margin-top: var(--space-2);
+    text-align: center;
   }
 </style>

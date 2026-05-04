@@ -1,66 +1,67 @@
 ---
 slug: deardiary
 title: DearDiary
-summary: Application personnelle de journal intime et de suivi de contacts, fullstack Spring Boot + Angular en architecture hexagonale stricte.
+summary: Application personnelle de journal intime et de suivi de contacts, fullstack Spring Boot + Angular.
 type: personal
 status: finished
 featured: true
 dateStart: 2024-09-01
 dateEnd: 2025-06-01
+liveUrl: https://deardiary.noctabou.win
 stack:
   - Spring Boot
   - Java
   - Angular
   - TypeScript
-  - NgRx
+  - NgRx Signals
   - MySQL
   - Docker
   - Flyway
 highlights:
-  - Architecture hexagonale stricte (ports & adapters) côté back
-  - Atomic Design rigoureux (atomes / molécules / organismes) côté front
-  - State management NgRx avec optimistic updates et rollback
-  - Pattern Result<T,E> railway-oriented en TypeScript
-  - Tests unitaires sur le domaine métier et tests d'intégration
+  - Architecture hexagonale côté Spring Boot
+  - Clean Architecture côté Angular
+  - Atomic Design rigoureux côté front
+  - State management avec NgRx Signals
   - Containerisation Docker pour un déploiement reproductible
   - Migrations DB versionnées avec Flyway
 architecture: |
-  Le back est découpé en couches hexagonales strictes. La couche **domain** contient les
-  entités métier (entries, contacts, mood) sans aucune dépendance technique. La couche
-  **application** définit les use-cases et les ports — interfaces que les adapters externes
-  doivent implémenter. La couche **infrastructure** regroupe les adapters JPA pour la
-  persistance, les mappers entité-domaine, et les controllers REST qui font office
-  d'adapters d'entrée HTTP. Cette séparation permet de tester le domaine en isolation
-  totale et de remplacer n'importe quelle dépendance externe sans toucher au métier.
+  Côté **back**, l'application suit une architecture hexagonale stricte. La couche
+  domaine contient les vraies entités métier (entries, contacts) avec leur
+  comportement et leurs invariants. Les use-cases applicatifs s'appuient sur des
+  ports — interfaces que les adapters d'infrastructure (JPA, REST) implémentent.
 
-  Le front Angular reproduit la même séparation : un dossier `domain` héberge les modèles
-  immuables, `application` définit les use-cases et les ports vers les repositories,
-  `infrastructure` implémente les adapters HTTP, et `presentation` suit l'Atomic Design
-  (atoms, molecules, organisms, templates, pages). Les composants ne connaissent que les
-  facades NgRx et n'ont aucune dépendance directe vers le réseau.
-media: []
+  Côté **front**, j'ai appliqué la Clean Architecture. La différence avec le
+  back est volontaire : ici les modèles du domaine sont des entités anémiques,
+  qui ne portent que de la donnée. La logique vit dans les use-cases, et la
+  couche présentation est structurée en Atomic Design (atomes, molécules,
+  organismes, templates, pages). NgRx Signals gère l'état applicatif.
+media:
+  - type: image
+    src: /images/projects/deardiary/login.png
+    alt: Page de connexion de DearDiary
+    caption: Page de connexion
+  - type: image
+    src: /images/projects/deardiary/homepage.png
+    alt: Tableau de bord de DearDiary
+    caption: Tableau de bord
+  - type: image
+    src: /images/projects/deardiary/calendrier.png
+    alt: Vue calendrier des entrées du journal
+    caption: Vue calendrier des entrées
+  - type: image
+    src: /images/projects/deardiary/type_relations.png
+    alt: Écran de gestion des types de relations entre contacts
+    caption: Gestion des types de relations
 ---
 
 DearDiary est une application personnelle de journal intime couplée à un gestionnaire de
-contacts. Elle permet à l'utilisateur d'écrire des entrées quotidiennes, de qualifier son
-humeur, puis d'analyser l'évolution émotionnelle sur l'année via des statistiques agrégées.
-Le second pan de l'application sert à organiser et suivre les personnes que l'utilisateur
-fréquente — un carnet de relations enrichi qui se croise avec les entrées du journal.
+contacts. L'utilisateur écrit des entrées quotidiennes pour conserver une trace de ses
+journées, et tient en parallèle un carnet de relations qu'il peut croiser avec son journal.
 
 J'ai conçu et développé l'application en autonomie, en choisissant Spring Boot et Angular
-pour me forcer à appliquer rigoureusement une architecture hexagonale sur les deux côtés.
-Côté back, le domaine métier est totalement isolé des frameworks : les entités sont des
-objets Java purs, et les ports décrivent ce que le métier attend de l'extérieur sans rien
-savoir de la persistance ou du transport. Les adapters JPA et REST sont injectés dans la
-couche application via la configuration Spring.
+pour me forcer à appliquer une vraie discipline architecturale sur les deux côtés. Le
+projet m'a servi à mettre en pratique l'architecture hexagonale côté serveur et la Clean
+Architecture côté client.
 
-Côté front, j'ai poussé l'Atomic Design jusqu'à la cohérence complète — chaque écran se
-construit en composant des organismes eux-mêmes faits de molécules et d'atomes
-réutilisables. Le state management NgRx applique des optimistic updates avec rollback
-sur les actions mutantes, et toutes les opérations asynchrones passent par un type
-`Result<T, E>` railway-oriented qui rend le flot d'erreurs explicite.
-
-Le projet est containerisé avec Docker Compose (back, front, MySQL), et les migrations
-de schéma sont versionnées via Flyway pour rester reproductibles entre environnements.
-Les tests unitaires couvrent le domaine et la logique applicative, et des tests
-d'intégration valident les contrats des adapters avec une base réelle.
+Le tout est containerisé avec Docker Compose pour un déploiement reproductible, et les
+migrations de schéma sont versionnées via Flyway.
