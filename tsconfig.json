@@ -12,8 +12,16 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
+    // Intentional asymmetry with `noUncheckedIndexedAccess`:
+    // `obj.foo` returns T (assumes presence), `obj['foo']` returns T | undefined.
+    // Use indexed access for untrusted sources (frontmatter, env, JSON) and validate
+    // at the boundary via Zod. Property access stays ergonomic for known shapes.
     "noPropertyAccessFromIndexSignature": false,
     "exactOptionalPropertyTypes": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true
   }
 }
