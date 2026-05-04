@@ -7,6 +7,7 @@ status: finished
 featured: true
 dateStart: 2024-09-01
 dateEnd: 2025-06-01
+liveUrl: https://deardiary.noctabou.win
 stack:
   - Spring Boot
   - Java
@@ -38,7 +39,23 @@ architecture: |
   `infrastructure` implémente les adapters HTTP, et `presentation` suit l'Atomic Design
   (atoms, molecules, organisms, templates, pages). Les composants ne connaissent que les
   facades NgRx et n'ont aucune dépendance directe vers le réseau.
-media: []
+media:
+  - type: image
+    src: /images/projects/deardiary/login.png
+    alt: Page de connexion de DearDiary avec formulaire email et mot de passe
+    caption: Page de connexion
+  - type: image
+    src: /images/projects/deardiary/homepage.png
+    alt: Tableau de bord DearDiary avec graphique d'humeur sur l'année
+    caption: Tableau de bord avec évolution de l'humeur
+  - type: image
+    src: /images/projects/deardiary/calendrier.png
+    alt: Vue calendrier de DearDiary listant les entrées du journal au jour le jour
+    caption: Vue calendrier des entrées
+  - type: image
+    src: /images/projects/deardiary/type_relations.png
+    alt: Écran de gestion des types de relations entre contacts
+    caption: Gestion des types de relations
 ---
 
 DearDiary est une application personnelle de journal intime couplée à un gestionnaire de
