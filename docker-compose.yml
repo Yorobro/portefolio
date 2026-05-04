@@ -1,0 +1,44 @@
+# docker-compose.yml — production deployment on VPS
+#
+# Usage:
+#   1. Place a `.env` file alongside this file with all required variables (see .env.example)
+#   2. `docker compose pull && docker compose up -d`
+#   3. Configure the host reverse proxy (Caddy/Nginx) to forward to 127.0.0.1:3000
+#
+# To build the image locally instead of pulling:
+#   docker compose build && docker compose up -d
+
+services:
+  portfolio:
+    image: ghcr.io/yohanfinelle/portfolio:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      CONTACT_NOTIFICATION_EMAIL: ${CONTACT_NOTIFICATION_EMAIL}
+      CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL}
+      IP_HASH_SALT: ${IP_HASH_SALT}
+      # DATABASE_PATH, MIGRATIONS_DIR, CONTENT_DIR, HOST, PORT have defaults in the Dockerfile
+    volumes:
+      - portfolio-data:/data
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  portfolio-data:
