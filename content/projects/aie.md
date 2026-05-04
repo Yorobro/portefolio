@@ -19,7 +19,19 @@ highlights:
   - Visualisation interactive d'un arbre généalogique
   - CI/CD avec GitHub Actions
   - Coordination en équipe via Git et workflow de pull requests
-media: []
+media:
+  - type: image
+    src: /images/projects/aie/accueil.png
+    alt: Page d'accueil de l'application A.I.E
+    caption: Page d'accueil
+  - type: image
+    src: /images/projects/aie/tree_loaded.png
+    alt: Arbre généalogique chargé dans A.I.E
+    caption: Arbre généalogique chargé
+  - type: image
+    src: /images/projects/aie/tree_temporalite_loaded.png
+    alt: Vue temporelle de l'arbre généalogique dans A.I.E
+    caption: Vue temporelle de l'arbre
 ---
 
 A.I.E est un projet universitaire mené à l'IUT en équipe de cinq personnes. L'objectif
