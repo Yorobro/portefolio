@@ -51,15 +51,20 @@
   {/if}
 
   {#if p.media.length > 0}
-    <section class="media">
-      {#each p.media as m (m.src)}
-        {#if m.type === 'image' || m.type === 'gif'}
-          <figure>
-            <img src={m.src} alt={m.alt} loading="lazy" />
-            {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
-          </figure>
-        {/if}
-      {/each}
+    <section>
+      <h2>Aperçu</h2>
+      <div class="media">
+        {#each p.media as m (m.src)}
+          {#if m.type === 'image' || m.type === 'gif'}
+            <figure>
+              <div class="frame">
+                <img src={m.src} alt={m.alt} loading="lazy" />
+              </div>
+              {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
+            </figure>
+          {/if}
+        {/each}
+      </div>
     </section>
   {/if}
 </article>
@@ -90,14 +95,44 @@
   }
   .media {
     display: grid;
-    gap: var(--space-4);
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+  }
+  @media (min-width: 40rem) {
+    .media {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   figure {
     margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  /* Frame the image: rounded border, subtle background, centered content */
+  .frame {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 120ms ease;
+  }
+  figure:hover .frame {
+    border-color: var(--color-accent);
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   figcaption {
     color: var(--color-text-muted);
     font-size: var(--font-size-small);
-    margin-top: var(--space-2);
+    text-align: center;
   }
 </style>
