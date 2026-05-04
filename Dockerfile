@@ -3,7 +3,7 @@
 # ─────────────────────────────────────────────────────────────
 # Stage 1: deps — install all dependencies (incl. devDependencies)
 # ─────────────────────────────────────────────────────────────
-FROM node:20-alpine AS base
+FROM node:20.19-alpine AS base
 RUN apk add --no-cache libc6-compat python3 make g++ \
   && corepack enable
 WORKDIR /app
@@ -23,7 +23,7 @@ RUN pnpm build && pnpm prune --prod
 # ─────────────────────────────────────────────────────────────
 # Stage 3: runtime — minimal production image
 # ─────────────────────────────────────────────────────────────
-FROM node:20-alpine AS runtime
+FROM node:20.19-alpine AS runtime
 RUN apk add --no-cache tini libc6-compat
 WORKDIR /app
 ENV NODE_ENV=production
