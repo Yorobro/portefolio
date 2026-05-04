@@ -1,42 +1,28 @@
-# sv
+# Portfolio — Yohan Finelle
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Portfolio personnel de **Yohan Finelle**, étudiant en BUT Informatique (Université de Bourgogne) en recherche d'alternance pour intégrer un cycle ingénieur 2026-2029.
 
-## Creating a project
+> Ce repo est en cours de construction. Voir `docs/superpowers/specs/2026-05-04-portfolio-design.md` pour le design détaillé et `docs/superpowers/plans/` pour le plan d'implémentation.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Stack
 
-```sh
-# create a new project
-npx sv create my-app
+- **Framework** : [SvelteKit](https://kit.svelte.dev) avec `adapter-node`
+- **Langage** : TypeScript strict
+- **Persistance** : Markdown (contenu) + SQLite via Drizzle (form contact)
+- **Architecture** : Clean Architecture académique (domain / application / infrastructure / presentation)
+
+## Développement
+
+```bash
+pnpm install
+pnpm dev          # serveur de dev sur http://localhost:5173
+pnpm check        # type-check
+pnpm build        # build de production
+pnpm preview      # prévisualiser le build
 ```
 
-To recreate this project with the same configuration:
+## Documentation
 
-```sh
-# recreate this project
-npx sv@0.15.2 create --template minimal --types ts --no-install .
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- Spec design : [`docs/superpowers/specs/2026-05-04-portfolio-design.md`](docs/superpowers/specs/2026-05-04-portfolio-design.md)
+- Plan d'implémentation : [`docs/superpowers/plans/`](docs/superpowers/plans/)
+- ADR (à venir) : `docs/adr/`
