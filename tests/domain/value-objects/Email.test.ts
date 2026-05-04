@@ -41,3 +41,17 @@ describe('Email', () => {
     }
   });
 });
+
+describe('Email — error code narrowing', () => {
+  it('InvalidEmailError code is a literal type usable for narrowing', () => {
+    const r = Email.create('not-valid');
+    expect(r.ok).toBe(false);
+    if (!r.ok && r.error.code === 'INVALID_EMAIL') {
+      // If narrowing works, this branch is reachable. The expect is a smoke check.
+      expect(r.error.message).toContain('not-valid');
+    } else {
+      // This branch should NEVER execute since the test sets up exactly this scenario.
+      expect.fail('Expected InvalidEmailError narrowing to succeed');
+    }
+  });
+});
