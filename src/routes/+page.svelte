@@ -11,6 +11,23 @@
     name="description"
     content="Portfolio de Yohan Finelle, étudiant en BUT Informatique. Spring Boot, Angular, Clean Architecture. En recherche d'alternance pour la rentrée 2026."
   />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Yohan Finelle — Étudiant ingénieur fullstack" />
+  <meta
+    property="og:description"
+    content="Portfolio d'un étudiant fullstack en recherche d'alternance pour cycle ingénieur 2026-2029."
+  />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Yohan Finelle — Étudiant ingénieur fullstack" />
+  <meta
+    name="twitter:description"
+    content="Portfolio d'un étudiant fullstack en recherche d'alternance pour cycle ingénieur 2026-2029."
+  />
 </svelte:head>
 
 <section class="hero">
