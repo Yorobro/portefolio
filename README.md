@@ -17,6 +17,8 @@ Portfolio personnel de **Yohan Finelle**, étudiant en BUT Informatique (Univers
 pnpm install
 pnpm dev          # serveur de dev sur http://localhost:5173
 pnpm check        # type-check
+pnpm test         # tests unitaires (Vitest)
+pnpm lint         # ESLint + Prettier
 pnpm build        # build de production
 pnpm preview      # prévisualiser le build
 ```
