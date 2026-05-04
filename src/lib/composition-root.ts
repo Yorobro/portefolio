@@ -8,69 +8,124 @@ import { createFilesystemSkillRepository } from '$infrastructure/persistence/fil
 import { createSqliteContactMessageRepository } from '$infrastructure/persistence/sqlite/SqliteContactMessageRepository';
 import { createResendEmailService } from '$infrastructure/email/ResendEmailService';
 import { createSystemClock } from '$infrastructure/clock/SystemClock';
-import { createListProjects } from '$application/use-cases/ListProjects';
-import { createGetProjectBySlug } from '$application/use-cases/GetProjectBySlug';
-import { createListExperiences } from '$application/use-cases/ListExperiences';
-import { createListSkills } from '$application/use-cases/ListSkills';
-import { createSubmitContactMessage } from '$application/use-cases/SubmitContactMessage';
-import { loadEnv } from '$server/env';
+import { createListProjects, type ListProjects } from '$application/use-cases/ListProjects';
+import {
+  createGetProjectBySlug,
+  type GetProjectBySlug,
+} from '$application/use-cases/GetProjectBySlug';
+import {
+  createListExperiences,
+  type ListExperiences,
+} from '$application/use-cases/ListExperiences';
+import { createListSkills, type ListSkills } from '$application/use-cases/ListSkills';
+import {
+  createSubmitContactMessage,
+  type SubmitContactMessage,
+} from '$application/use-cases/SubmitContactMessage';
+import { loadEnv, type AppEnv } from '$server/env';
 import { env as dynamicPrivateEnv } from '$env/dynamic/private';
 import { env as dynamicPublicEnv } from '$env/dynamic/public';
 
-// Vite/SvelteKit loads `.env` files into `$env/dynamic/{private,public}`, not
-// into `process.env`. We merge both into the source for `loadEnv` (which
-// defaults to `process.env` for non-SvelteKit callers like tests/scripts).
-const env = loadEnv({ ...process.env, ...dynamicPrivateEnv, ...dynamicPublicEnv });
+// Lazy initialization: env loading and dependency wiring is deferred until
+// the first time `getUseCases()` / `getAppConfig()` / `hashIp()` is called.
+//
+// Why: SvelteKit's prerender/analyse step imports every server module to walk
+// route exports, which would trigger top-level env validation and crash any
+// build that doesn't have a `.env` (typical CI). We delay until a request
+// actually needs the wiring.
+//
+// Memoization: dependencies are constructed exactly once per process.
 
-const db = createDb({
-  databasePath: env.DATABASE_PATH,
-  migrationsFolder: env.MIGRATIONS_DIR,
-});
+interface Container {
+  env: AppEnv;
+  useCases: {
+    listProjects: ListProjects;
+    getProjectBySlug: GetProjectBySlug;
+    listExperiences: ListExperiences;
+    listSkills: ListSkills;
+    submitContactMessage: SubmitContactMessage;
+  };
+}
 
-const projectRepository = createFilesystemProjectRepository({
-  contentDir: path.join(env.CONTENT_DIR, 'projects'),
-});
-const experienceRepository = createFilesystemExperienceRepository({
-  contentDir: path.join(env.CONTENT_DIR, 'experiences'),
-});
-const skillRepository = createFilesystemSkillRepository({
-  contentDir: path.join(env.CONTENT_DIR, 'skills'),
-});
+let container: Container | undefined;
 
-// The contact form action computes the IP hash from getClientAddress() and
-// passes it through SubmitContactMessage's input. The repo's ipHashFor callback
-// is therefore a no-op fallback ("pending") — the actual ipHash is stored via
-// the message's context in the use case flow. Phase 7 wiring will refine this.
-const contactRepository = createSqliteContactMessageRepository({
-  db,
-  ipHashFor: () => 'pending',
-});
+function buildContainer(): Container {
+  const env = loadEnv({ ...process.env, ...dynamicPrivateEnv, ...dynamicPublicEnv });
 
-const resendClient = new Resend(env.RESEND_API_KEY);
-const emailService = createResendEmailService({
-  client: resendClient,
-  fromAddress: env.CONTACT_FROM_EMAIL,
-  toAddress: env.CONTACT_NOTIFICATION_EMAIL,
-});
+  const db = createDb({
+    databasePath: env.DATABASE_PATH,
+    migrationsFolder: env.MIGRATIONS_DIR,
+  });
 
-const clock = createSystemClock();
+  const projectRepository = createFilesystemProjectRepository({
+    contentDir: path.join(env.CONTENT_DIR, 'projects'),
+  });
+  const experienceRepository = createFilesystemExperienceRepository({
+    contentDir: path.join(env.CONTENT_DIR, 'experiences'),
+  });
+  const skillRepository = createFilesystemSkillRepository({
+    contentDir: path.join(env.CONTENT_DIR, 'skills'),
+  });
 
+  // The contact form action computes the IP hash from getClientAddress() and
+  // passes it through SubmitContactMessage's input. The repo's ipHashFor callback
+  // is therefore a no-op fallback ("pending") — the actual ipHash is stored via
+  // the message's context in the use case flow.
+  const contactRepository = createSqliteContactMessageRepository({
+    db,
+    ipHashFor: () => 'pending',
+  });
+
+  const resendClient = new Resend(env.RESEND_API_KEY);
+  const emailService = createResendEmailService({
+    client: resendClient,
+    fromAddress: env.CONTACT_FROM_EMAIL,
+    toAddress: env.CONTACT_NOTIFICATION_EMAIL,
+  });
+
+  const clock = createSystemClock();
+
+  return {
+    env,
+    useCases: {
+      listProjects: createListProjects({ projectRepository }),
+      getProjectBySlug: createGetProjectBySlug({ projectRepository }),
+      listExperiences: createListExperiences({ experienceRepository }),
+      listSkills: createListSkills({ skillRepository }),
+      submitContactMessage: createSubmitContactMessage({
+        contactRepository,
+        emailService,
+        clock,
+      }),
+    },
+  };
+}
+
+function getContainer(): Container {
+  if (!container) {
+    container = buildContainer();
+  }
+  return container;
+}
+
+/** Lazy-initialized use cases (env validated on first access, not at import). */
 export const useCases = {
-  listProjects: createListProjects({ projectRepository }),
-  getProjectBySlug: createGetProjectBySlug({ projectRepository }),
-  listExperiences: createListExperiences({ experienceRepository }),
-  listSkills: createListSkills({ skillRepository }),
-  submitContactMessage: createSubmitContactMessage({
-    contactRepository,
-    emailService,
-    clock,
-  }),
+  listProjects: ((input) => getContainer().useCases.listProjects(input)) as ListProjects,
+  getProjectBySlug: ((input) =>
+    getContainer().useCases.getProjectBySlug(input)) as GetProjectBySlug,
+  listExperiences: (() => getContainer().useCases.listExperiences()) as ListExperiences,
+  listSkills: (() => getContainer().useCases.listSkills()) as ListSkills,
+  submitContactMessage: ((input) =>
+    getContainer().useCases.submitContactMessage(input)) as SubmitContactMessage,
 } as const;
 
 export function hashIp(rawIp: string): string {
+  const env = getContainer().env;
   return createHash('sha256').update(`${env.IP_HASH_SALT}:${rawIp}`).digest('hex');
 }
 
 export const appConfig = {
-  publicSiteUrl: env.PUBLIC_SITE_URL,
-} as const;
+  get publicSiteUrl(): string {
+    return getContainer().env.PUBLIC_SITE_URL;
+  },
+};
