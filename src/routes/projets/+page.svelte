@@ -62,11 +62,6 @@
 </div>
 
 <style>
-  /* Override the global container max-width for this page so 3 categories breathe */
-  :global(main:has(.categories)) {
-    max-width: 76rem;
-  }
-
   .page-header {
     margin-bottom: var(--space-12);
   }

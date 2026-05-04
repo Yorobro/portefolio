@@ -45,7 +45,7 @@
   /* Shadows */
   --shadow-card: 0 1px 0 0 rgba(74, 222, 128, 0.04), 0 0 0 1px rgba(74, 222, 128, 0.05);
 
-  /* Layout */
-  --container-max: 64rem;
-  --container-narrow: 44rem;
+  /* Layout — generous max widths so the design uses the full screen on large displays */
+  --container-max: 96rem;
+  --container-narrow: 56rem;
 }
