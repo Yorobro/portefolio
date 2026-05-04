@@ -1,8 +1,18 @@
 <script lang="ts">
   import Button from '$components/Button.svelte';
   import Tag from '$components/Tag.svelte';
+  import Lightbox from '$components/Lightbox.svelte';
+  import type { ProjectMediaViewModel } from '$presentation/view-models/ProjectDetailViewModel';
   let { data } = $props();
   const p = $derived(data.project);
+
+  let activeMedia: ProjectMediaViewModel | undefined = $state();
+  function openMedia(m: ProjectMediaViewModel): void {
+    activeMedia = m;
+  }
+  function closeMedia(): void {
+    activeMedia = undefined;
+  }
 </script>
 
 <svelte:head>
@@ -57,9 +67,14 @@
         {#each p.media as m (m.src)}
           {#if m.type === 'image' || m.type === 'gif'}
             <figure>
-              <div class="frame">
+              <button
+                type="button"
+                class="frame"
+                aria-label={`Agrandir : ${m.alt}`}
+                onclick={() => openMedia(m)}
+              >
                 <img src={m.src} alt={m.alt} loading="lazy" />
-              </div>
+              </button>
               {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
             </figure>
           {/if}
@@ -68,6 +83,15 @@
     </section>
   {/if}
 </article>
+
+{#if activeMedia}
+  <Lightbox
+    src={activeMedia.src}
+    alt={activeMedia.alt}
+    caption={activeMedia.caption}
+    onClose={closeMedia}
+  />
+{/if}
 
 <style>
   article {
@@ -109,17 +133,23 @@
     display: grid;
     gap: var(--space-2);
   }
-  /* Frame the image: rounded border, subtle background. Let the image dictate
-     its own aspect ratio so we don't crop UI screenshots. */
+  /* Frame the image: rounded border, subtle background, clickable to open lightbox.
+     Let the image dictate its own aspect ratio so we don't crop UI screenshots. */
   .frame {
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: border-color 120ms ease;
+    padding: 0;
+    cursor: zoom-in;
+    transition:
+      border-color 120ms ease,
+      transform 120ms ease;
   }
-  figure:hover .frame {
+  .frame:hover,
+  .frame:focus-visible {
     border-color: var(--color-accent);
+    transform: translateY(-2px);
   }
   .frame img {
     width: 100%;
