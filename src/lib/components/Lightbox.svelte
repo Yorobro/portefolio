@@ -77,7 +77,21 @@
     aria-label="Fermer l'aperçu"
     onclick={onClose}
   >
-    ×
+    <svg
+      class="close-icon"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="6" y1="18" x2="18" y2="6" />
+    </svg>
   </button>
 
   <figure class="figure">
@@ -102,14 +116,13 @@
     place-self: end;
     width: 2.75rem;
     height: 2.75rem;
-    display: grid;
-    place-items: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--color-border);
     border-radius: 50%;
     background: var(--color-bg-elevated);
     color: var(--color-text);
-    font-size: 1.75rem;
-    line-height: 1;
     cursor: pointer;
     transition:
       border-color 120ms ease,
