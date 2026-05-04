@@ -59,4 +59,13 @@ export default [
   },
   prettierConfig,
   ...sveltePlugin.configs['flat/prettier'],
+  {
+    files: ['src/lib/domain/**/*.ts'],
+    rules: {
+      // Companion-object pattern (type X + const X) is idiomatic in the domain layer
+      // for value objects with factory methods. The TS-aware no-redeclare rule does
+      // not recognize this merge as legitimate, so we disable it here.
+      '@typescript-eslint/no-redeclare': 'off',
+    },
+  },
 ];

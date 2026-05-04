@@ -47,7 +47,6 @@ function makeErr<T, E>(error: E): Err<T, E> {
   return self;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare -- Companion-object pattern: `Result` is both a type and a value namespace, which is idiomatic TS and lives in separate namespaces.
 export const Result = {
   ok: makeOk,
   err: makeErr,
