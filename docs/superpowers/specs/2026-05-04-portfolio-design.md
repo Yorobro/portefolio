@@ -26,9 +26,9 @@ Ces trois publics ont des temps d'attention courts (15 à 45 secondes sur la hom
 
 Le portfolio doit répondre, **dès la home page et sans scroll obligatoire**, aux trois questions critiques d'un recruteur :
 
-1. *Qui est Yohan ?* (positionnement professionnel, statut)
-2. *Que sait-il faire ?* (compétences clés + projets phares)
-3. *Comment le contacter ?* (call-to-action explicite)
+1. _Qui est Yohan ?_ (positionnement professionnel, statut)
+2. _Que sait-il faire ?_ (compétences clés + projets phares)
+3. _Comment le contacter ?_ (call-to-action explicite)
 
 ### 1.4 Objectif secondaire
 
@@ -60,14 +60,14 @@ La démonstration technique poussée (architecture hexagonale, schémas, snippet
 
 ### 2.2 Pages
 
-| Route | Contenu |
-|---|---|
-| `/` | Home : pitch + 3 projets phares + compétences clés |
-| `/projets` | Liste de tous les projets, filtrables par tag |
+| Route             | Contenu                                                           |
+| ----------------- | ----------------------------------------------------------------- |
+| `/`               | Home : pitch + 3 projets phares + compétences clés                |
+| `/projets`        | Liste de tous les projets, filtrables par tag                     |
 | `/projets/[slug]` | Détail d'un projet (description, stack, lien repo, médias, archi) |
-| `/parcours` | Formations + expériences professionnelles, frise chronologique |
-| `/contact` | Formulaire de contact + liens directs (mail, LinkedIn, GitHub) |
-| `/cv.pdf` | Téléchargement direct du CV PDF |
+| `/parcours`       | Formations + expériences professionnelles, frise chronologique    |
+| `/contact`        | Formulaire de contact + liens directs (mail, LinkedIn, GitHub)    |
+| `/cv.pdf`         | Téléchargement direct du CV PDF                                   |
 
 Pas de page `/about` séparée — la home contient déjà le pitch personnel.
 
@@ -75,14 +75,14 @@ Pas de page `/about` séparée — la home contient déjà le pitch personnel.
 
 Six projets seront présentés (3 phares en home + tous sur `/projets`) :
 
-| Projet | Statut | Type | Stack | Phare |
-|---|---|---|---|---|
-| **DearDiary** | 🟢 Présentable | Personnel | Angular + Spring Boot, archi hexagonale, Docker | ✅ |
-| **Vanice** (mod Minecraft) | 🟡 En cours | Personnel | Kotlin, mod endgame, repo privé | ✅ |
-| **APRR** | 🟢 Pro | Alternance | PHP 8.4, Clean Architecture, OIDC, Azure DevOps, WPF | ✅ |
-| **A.I.E** | 🟢 Universitaire | Équipe | WPF, MVVM | ⚪ |
-| **PIXomètre** | 🟢 Universitaire | Équipe | PHP, Laravel | ⚪ |
-| **Projet 24h** | 🟢 Compétitif | Équipe (5ème/24) | IA + site web | ⚪ |
+| Projet                     | Statut           | Type             | Stack                                                | Phare |
+| -------------------------- | ---------------- | ---------------- | ---------------------------------------------------- | ----- |
+| **DearDiary**              | 🟢 Présentable   | Personnel        | Angular + Spring Boot, archi hexagonale, Docker      | ✅    |
+| **Vanice** (mod Minecraft) | 🟡 En cours      | Personnel        | Kotlin, mod endgame, repo privé                      | ✅    |
+| **APRR**                   | 🟢 Pro           | Alternance       | PHP 8.4, Clean Architecture, OIDC, Azure DevOps, WPF | ✅    |
+| **A.I.E**                  | 🟢 Universitaire | Équipe           | WPF, MVVM                                            | ⚪    |
+| **PIXomètre**              | 🟢 Universitaire | Équipe           | PHP, Laravel                                         | ⚪    |
+| **Projet 24h**             | 🟢 Compétitif    | Équipe (5ème/24) | IA + site web                                        | ⚪    |
 
 ---
 
@@ -131,12 +131,14 @@ Le code applicatif est organisé en **quatre couches concentriques**, avec dépe
 #### 3.2.1 `domain/` — cœur métier pur
 
 Contient :
+
 - **Entities** : `Project`, `Experience`, `Skill`, `ContactMessage`
 - **Value Objects** : `Email`, `ProjectSlug`, `TechStack`, `DateRange`, `ProjectStatus` (enum), `MediaAsset`
 - **Domain Errors** : `InvalidEmailError`, `ProjectNotFoundError`, `ContactMessageRejectedError`
 - **Domain Services** (si nécessaire) : pure functions sans état
 
 Règles :
+
 - Aucune dépendance externe (pas de `zod`, pas de `gray-matter`, pas de `better-sqlite3`)
 - Immutabilité stricte (`readonly` partout, classes ou objets gelés)
 - Validation à la construction (factory methods qui retournent `Result<T, E>`)
@@ -144,6 +146,7 @@ Règles :
 #### 3.2.2 `application/` — use cases et ports
 
 Contient :
+
 - **Use cases** : un fichier par cas d'usage, fonction ou classe avec une seule méthode `execute`
   - `ListProjects`
   - `GetProjectBySlug`
@@ -159,6 +162,7 @@ Contient :
   - `Clock` (pour mocker le temps en tests)
 
 Règles :
+
 - Dépend uniquement de `domain/`
 - Les use cases retournent `Result<T, E>` (railway-oriented), jamais d'exceptions sauvages
 - Une seule responsabilité par use case (SRP)
@@ -182,6 +186,7 @@ Contient les implémentations concrètes des ports :
   - `SystemClock` : implémente `Clock` avec `Date.now()`
 
 Règles :
+
 - Dépend de `application/` et `domain/`
 - Aucune connaissance de SvelteKit ou de l'UI
 - Les adapters convertissent les données externes (markdown, lignes SQL) en entités du domaine via des **mappers**
@@ -189,6 +194,7 @@ Règles :
 #### 3.2.4 `presentation/` — mappers vers view-models
 
 Contient :
+
 - **View-Models** : structures de données dédiées aux vues Svelte (POJOs sérialisables)
   - `ProjectListItemViewModel`, `ProjectDetailViewModel`, `ExperienceViewModel`, etc.
 - **Mappers** : transforment les entités du domaine en view-models
@@ -196,13 +202,15 @@ Contient :
   - `ProjectViewModelMapper.toDetail(project: Project): ProjectDetailViewModel`
 
 Règles :
+
 - Dépend de `domain/` (lit les entités) — pas de `application/`
 - Aucune logique métier, uniquement de la transformation de données
 - Les view-models doivent être **sérialisables JSON** (SvelteKit transmet les données du serveur vers le client via JSON)
 
 #### 3.2.5 `routes/` — couche d'entrée SvelteKit (extension physique de `presentation/`)
 
-**Note importante** : conceptuellement, `routes/` *appartient à la couche présentation*. Mais SvelteKit impose physiquement le dossier `src/routes/` pour son routing par convention (file-based routing). On considère donc que **la couche présentation est logiquement scindée en deux dossiers** :
+**Note importante** : conceptuellement, `routes/` _appartient à la couche présentation_. Mais SvelteKit impose physiquement le dossier `src/routes/` pour son routing par convention (file-based routing). On considère donc que **la couche présentation est logiquement scindée en deux dossiers** :
+
 - `src/lib/presentation/` : view-models, mappers (réutilisables, testables, indépendants du framework)
 - `src/routes/` : pages SvelteKit (controllers + views), **contrainte du framework**
 
@@ -211,6 +219,7 @@ Ce choix est documenté dans **ADR 0005 — `routes/` et la couche présentation
 Contient les fichiers SvelteKit (`+page.svelte`, `+page.server.ts`, `+server.ts`).
 
 Règles :
+
 - Les `+page.server.ts` sont des **contrôleurs minces** qui :
   1. Récupèrent les use cases via le composition root
   2. Les appellent avec les paramètres HTTP
@@ -260,7 +269,7 @@ export const load = async () => {
   const result = await useCases.listProjects.execute();
   if (result.isErr()) throw error(500, result.error.message);
   return {
-    projects: result.value.map(ProjectViewModelMapper.toListItem)
+    projects: result.value.map(ProjectViewModelMapper.toListItem),
   };
 };
 ```
@@ -440,18 +449,18 @@ portfolio/
 class Project {
   readonly slug: ProjectSlug;
   readonly title: string;
-  readonly summary: string;            // 1-2 phrases pour les cards
-  readonly description: string;        // Markdown rendu, version longue
+  readonly summary: string; // 1-2 phrases pour les cards
+  readonly description: string; // Markdown rendu, version longue
   readonly stack: TechStack;
-  readonly status: ProjectStatus;      // 'finished' | 'in-progress' | 'archived'
-  readonly type: ProjectType;          // 'personal' | 'professional' | 'academic' | 'competitive'
-  readonly featured: boolean;          // Affiché en home si true
+  readonly status: ProjectStatus; // 'finished' | 'in-progress' | 'archived'
+  readonly type: ProjectType; // 'personal' | 'professional' | 'academic' | 'competitive'
+  readonly featured: boolean; // Affiché en home si true
   readonly dateRange: DateRange;
   readonly repoUrl?: string;
   readonly liveUrl?: string;
   readonly media: readonly MediaAsset[];
-  readonly architecture?: string;      // Markdown : section archi du projet
-  readonly highlights: readonly string[];  // Bullet points clés
+  readonly architecture?: string; // Markdown : section archi du projet
+  readonly highlights: readonly string[]; // Bullet points clés
 }
 ```
 
@@ -504,13 +513,13 @@ L'application suit une architecture hexagonale stricte…
 ```typescript
 // drizzle schema
 export const contactMessages = sqliteTable('contact_messages', {
-  id: text('id').primaryKey(),                 // UUID
+  id: text('id').primaryKey(), // UUID
   email: text('email').notNull(),
   name: text('name').notNull(),
   subject: text('subject').notNull(),
   message: text('message').notNull(),
   receivedAt: integer('received_at', { mode: 'timestamp' }).notNull(),
-  ipHash: text('ip_hash'),                     // Hash de l'IP pour rate limiting
+  ipHash: text('ip_hash'), // Hash de l'IP pour rate limiting
   emailSent: integer('email_sent', { mode: 'boolean' }).notNull().default(false),
 });
 ```
@@ -576,17 +585,17 @@ Si échec : retour { success: false, error: '...' } + status 400/500
 
 Toutes les valeurs sont définies en CSS variables dans `src/lib/styles/tokens.css`.
 
-| Token | Valeur | Usage |
-|---|---|---|
-| `--color-bg` | `#0a0e0a` | Fond principal |
-| `--color-bg-elevated` | `#11161a` | Cards, surfaces surélevées |
-| `--color-text` | `#e8f0e8` | Texte principal |
-| `--color-text-secondary` | `#a8c8a8` | Texte secondaire (subtitles) |
-| `--color-text-muted` | `#6b7e6b` | Texte tertiaire (captions) |
-| `--color-accent` | `#4ade80` | Vert vif — boutons, liens, accents |
-| `--color-accent-soft` | `#4ade8020` | Background subtil pour les tags |
-| `--color-border` | `#2d3a2d` | Bordures |
-| `--color-border-subtle` | `#1a201a` | Séparateurs discrets |
+| Token                    | Valeur      | Usage                              |
+| ------------------------ | ----------- | ---------------------------------- |
+| `--color-bg`             | `#0a0e0a`   | Fond principal                     |
+| `--color-bg-elevated`    | `#11161a`   | Cards, surfaces surélevées         |
+| `--color-text`           | `#e8f0e8`   | Texte principal                    |
+| `--color-text-secondary` | `#a8c8a8`   | Texte secondaire (subtitles)       |
+| `--color-text-muted`     | `#6b7e6b`   | Texte tertiaire (captions)         |
+| `--color-accent`         | `#4ade80`   | Vert vif — boutons, liens, accents |
+| `--color-accent-soft`    | `#4ade8020` | Background subtil pour les tags    |
+| `--color-border`         | `#2d3a2d`   | Bordures                           |
+| `--color-border-subtle`  | `#1a201a`   | Séparateurs discrets               |
 
 Tous les ratios texte/fond doivent respecter au minimum **WCAG AA** (4.5:1 pour le texte normal, 3:1 pour le texte large).
 
@@ -602,14 +611,14 @@ Tous les ratios texte/fond doivent respecter au minimum **WCAG AA** (4.5:1 pour 
 
 Échelle :
 
-| Token | Taille | Usage |
-|---|---|---|
-| `--font-size-hero` | 32–40px | Titres home |
-| `--font-size-h1` | 28px | Titres de page |
-| `--font-size-h2` | 22px | Titres de section |
-| `--font-size-body` | 15px | Corps de texte |
-| `--font-size-small` | 13px | Métadonnées |
-| `--font-size-caption` | 11px | Labels uppercase |
+| Token                 | Taille  | Usage             |
+| --------------------- | ------- | ----------------- |
+| `--font-size-hero`    | 32–40px | Titres home       |
+| `--font-size-h1`      | 28px    | Titres de page    |
+| `--font-size-h2`      | 22px    | Titres de section |
+| `--font-size-body`    | 15px    | Corps de texte    |
+| `--font-size-small`   | 13px    | Métadonnées       |
+| `--font-size-caption` | 11px    | Labels uppercase  |
 
 ### 4.3 Espacement (échelle 4-points)
 
@@ -644,7 +653,7 @@ Toutes les opérations qui peuvent échouer dans le domaine et l'application ret
 
 ```typescript
 type Result<T, E> =
-  | { readonly ok: true;  readonly value: T }
+  | { readonly ok: true; readonly value: T }
   | { readonly ok: false; readonly error: E };
 ```
 
@@ -706,6 +715,7 @@ Ces fakes vivent dans `tests/fakes/`, pas dans `src/` (ils ne sont pas compilés
 ### 7.1 GitHub Actions — `.github/workflows/ci.yml`
 
 À chaque push et PR :
+
 1. Setup Node (version depuis `.nvmrc`)
 2. Install dependencies (`pnpm install --frozen-lockfile` ou équivalent)
 3. Lint (`pnpm lint`)
@@ -771,6 +781,7 @@ Si l'un échoue, le workflow échoue. Le badge "CI passing" doit apparaître sur
 ### 11.1 README.md (racine du repo)
 
 Sections obligatoires :
+
 - Pitch : "Portfolio de Yohan Finelle, étudiant ingénieur en recherche d'alternance"
 - Stack technique
 - Architecture (lien vers cette spec et les ADR)
@@ -782,6 +793,7 @@ Sections obligatoires :
 ### 11.2 ADR (Architecture Decision Records)
 
 Documents courts (1-2 pages chacun) dans `docs/adr/` qui justifient les choix structurants :
+
 - ADR 0001 : Pourquoi Clean Architecture
 - ADR 0002 : Pourquoi SvelteKit fullstack (vs SSG, vs monorepo)
 - ADR 0003 : Pourquoi le contenu en Markdown (vs CMS, vs DB)
@@ -791,6 +803,7 @@ Documents courts (1-2 pages chacun) dans `docs/adr/` qui justifient les choix st
 ### 11.3 TSDoc
 
 Toutes les fonctions/classes publiques (exportées) dans `lib/domain/`, `lib/application/`, `lib/infrastructure/` doivent avoir un commentaire TSDoc qui explique :
+
 - Ce que fait l'élément
 - Les paramètres et leurs contraintes
 - Le retour
@@ -802,17 +815,17 @@ Toutes les fonctions/classes publiques (exportées) dans `lib/domain/`, `lib/app
 
 L'implémentation détaillée sera produite dans un **plan dédié** (skill `writing-plans`) après validation de cette spec. Vue d'ensemble :
 
-| Phase | Objectif | Livrables |
-|---|---|---|
-| **0 — Setup** | Initialiser le projet | repo, package.json, configs (TS, ESLint, Prettier, Husky, Vitest), CI |
-| **1 — Domain & Application** | Coder le cœur métier | entities, value-objects, use cases, ports, tests unitaires |
-| **2 — Infrastructure** | Implémenter les adapters | FilesystemRepositories, MarkdownParser, SqliteContactRepo, ResendEmailService |
-| **3 — Composition Root** | Assembler tout | composition-root.ts |
-| **4 — Presentation & UI** | Layout, design system, composants | tokens.css, composants Svelte, pages |
-| **5 — Pages** | Implémenter chaque route | home, projets, parcours, contact |
-| **6 — Contenu** | Rédiger les Markdown | 6 projets, 3 expériences, skills |
-| **7 — Polish** | Accessibilité, SEO, perf | meta tags, sitemap, Lighthouse, fix |
-| **8 — Déploiement** | Mettre en ligne | Dockerfile, docker-compose, déploiement VPS |
+| Phase                        | Objectif                          | Livrables                                                                     |
+| ---------------------------- | --------------------------------- | ----------------------------------------------------------------------------- |
+| **0 — Setup**                | Initialiser le projet             | repo, package.json, configs (TS, ESLint, Prettier, Husky, Vitest), CI         |
+| **1 — Domain & Application** | Coder le cœur métier              | entities, value-objects, use cases, ports, tests unitaires                    |
+| **2 — Infrastructure**       | Implémenter les adapters          | FilesystemRepositories, MarkdownParser, SqliteContactRepo, ResendEmailService |
+| **3 — Composition Root**     | Assembler tout                    | composition-root.ts                                                           |
+| **4 — Presentation & UI**    | Layout, design system, composants | tokens.css, composants Svelte, pages                                          |
+| **5 — Pages**                | Implémenter chaque route          | home, projets, parcours, contact                                              |
+| **6 — Contenu**              | Rédiger les Markdown              | 6 projets, 3 expériences, skills                                              |
+| **7 — Polish**               | Accessibilité, SEO, perf          | meta tags, sitemap, Lighthouse, fix                                           |
+| **8 — Déploiement**          | Mettre en ligne                   | Dockerfile, docker-compose, déploiement VPS                                   |
 
 ---
 
@@ -864,12 +877,12 @@ Voir les ADR (`docs/adr/`).
 
 ### Annexe B — Risques identifiés
 
-| Risque | Mitigation |
-|---|---|
-| Sur-ingénierie ralentit la livraison | Roadmap avec phases courtes, livrer une v1 minimale d'abord |
-| Le repo privé de Vanice limite la démo | Inclure des screenshots et vidéos en abondance, expliquer le rôle |
-| Resend tombe en panne | Fallback : log du message en SQLite, affichage d'un message "réessayez plus tard" |
-| VPS de l'ami indisponible | Plan B : déploiement temporaire sur Render/Fly.io free tier |
+| Risque                                 | Mitigation                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------- |
+| Sur-ingénierie ralentit la livraison   | Roadmap avec phases courtes, livrer une v1 minimale d'abord                       |
+| Le repo privé de Vanice limite la démo | Inclure des screenshots et vidéos en abondance, expliquer le rôle                 |
+| Resend tombe en panne                  | Fallback : log du message en SQLite, affichage d'un message "réessayez plus tard" |
+| VPS de l'ami indisponible              | Plan B : déploiement temporaire sur Render/Fly.io free tier                       |
 
 ### Annexe C — Inspirations design
 
@@ -879,10 +892,10 @@ Voir les ADR (`docs/adr/`).
 
 ### Annexe D — Public cible étendu
 
-| Public | Type | Critères d'évaluation typiques |
-|---|---|---|
-| Recruteurs entreprise | Tech lead, RH | Compétences pratiques, projets concrets, rigueur, posture pro |
-| Écoles d'ingénieur (cible principale) | Comité d'admission | Profil académique, motivation, capacité à raisonner, expériences |
-| DIIAGE Dijon (cible secondaire) | École d'informatique non-ingé | Compétences techniques solides, projets concrets, sérieux du dossier |
+| Public                                | Type                          | Critères d'évaluation typiques                                       |
+| ------------------------------------- | ----------------------------- | -------------------------------------------------------------------- |
+| Recruteurs entreprise                 | Tech lead, RH                 | Compétences pratiques, projets concrets, rigueur, posture pro        |
+| Écoles d'ingénieur (cible principale) | Comité d'admission            | Profil académique, motivation, capacité à raisonner, expériences     |
+| DIIAGE Dijon (cible secondaire)       | École d'informatique non-ingé | Compétences techniques solides, projets concrets, sérieux du dossier |
 
 Le ton du portfolio reste **professionnel et factuel**, sans jargon excessif d'une école ou d'une entreprise particulière, pour parler aux trois sans en privilégier un.

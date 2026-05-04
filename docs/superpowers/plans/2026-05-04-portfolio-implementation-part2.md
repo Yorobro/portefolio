@@ -27,6 +27,7 @@ git commit -m "chore(deps): add infrastructure libraries (drizzle, sqlite, zod, 
 ### Task 22: `MarkdownParser` (helper)
 
 **Files:**
+
 - Create: `src/lib/infrastructure/persistence/filesystem/MarkdownParser.ts`
 - Test: `tests/infrastructure/persistence/filesystem/MarkdownParser.test.ts`
 
@@ -97,6 +98,7 @@ git commit -m "feat(infra): add MarkdownParser helper based on gray-matter and r
 ### Task 23: `FilesystemProjectRepository`
 
 **Files:**
+
 - Create: `src/lib/infrastructure/persistence/filesystem/FilesystemProjectRepository.ts`
 - Create: `src/lib/infrastructure/persistence/filesystem/mappers/projectFrontmatterSchema.ts`
 - Test: `tests/infrastructure/persistence/filesystem/FilesystemProjectRepository.test.ts`
@@ -256,9 +258,7 @@ export function createFilesystemProjectRepository(
         const fm = projectFrontmatterSchema.safeParse(parsed.frontmatter);
         if (!fm.success) {
           return Result.err(
-            new RepositoryReadError(
-              `Invalid frontmatter in ${file}: ${fm.error.message}`,
-            ),
+            new RepositoryReadError(`Invalid frontmatter in ${file}: ${fm.error.message}`),
           );
         }
         const slug = ProjectSlugVO.create(fm.data.slug);
@@ -338,6 +338,7 @@ git commit -m "feat(infra): add FilesystemProjectRepository with Zod-validated f
 ### Task 24: `FilesystemExperienceRepository` and `FilesystemSkillRepository`
 
 **Files:**
+
 - Create: `src/lib/infrastructure/persistence/filesystem/FilesystemExperienceRepository.ts`
 - Create: `src/lib/infrastructure/persistence/filesystem/FilesystemSkillRepository.ts`
 - Create: `src/lib/infrastructure/persistence/filesystem/mappers/experienceFrontmatterSchema.ts`
@@ -402,6 +403,7 @@ git commit -m "feat(infra): add FilesystemExperienceRepository and FilesystemSki
 ### Task 25: Drizzle schema and migrations
 
 **Files:**
+
 - Create: `src/lib/infrastructure/persistence/sqlite/schema.ts`
 - Create: `drizzle.config.ts`
 - Create: `src/lib/infrastructure/persistence/sqlite/db.ts`
@@ -498,6 +500,7 @@ git commit -m "feat(infra): add SQLite schema, drizzle config and db helper"
 ### Task 26: `SqliteContactMessageRepository`
 
 **Files:**
+
 - Create: `src/lib/infrastructure/persistence/sqlite/SqliteContactMessageRepository.ts`
 - Test: `tests/infrastructure/persistence/sqlite/SqliteContactMessageRepository.test.ts` (uses in-memory `:memory:` SQLite)
 
@@ -617,9 +620,7 @@ export function createSqliteContactMessageRepository({
         const rows = await db
           .select({ n: count() })
           .from(contactMessages)
-          .where(
-            and(eq(contactMessages.ipHash, ipHash), gte(contactMessages.receivedAt, since)),
-          );
+          .where(and(eq(contactMessages.ipHash, ipHash), gte(contactMessages.receivedAt, since)));
         return Result.ok(rows[0]?.n ?? 0);
       } catch (e) {
         return Result.err(new PersistenceError(`count failed: ${(e as Error).message}`));
@@ -650,6 +651,7 @@ git commit -m "feat(infra): add SqliteContactMessageRepository with rate-limit c
 ### Task 27: `ResendEmailService`
 
 **Files:**
+
 - Create: `src/lib/infrastructure/email/ResendEmailService.ts`
 - Test: `tests/infrastructure/email/ResendEmailService.test.ts`
 
@@ -705,10 +707,7 @@ describe('ResendEmailService', () => {
 ```ts
 // src/lib/infrastructure/email/ResendEmailService.ts
 import type { Resend } from 'resend';
-import type {
-  EmailService,
-  ContactNotificationPayload,
-} from '$application/ports/EmailService';
+import type { EmailService, ContactNotificationPayload } from '$application/ports/EmailService';
 import { Result } from '$domain/shared/Result';
 import { DomainError } from '$domain/errors/DomainError';
 
@@ -785,6 +784,7 @@ git commit -m "feat(infra): add ResendEmailService with HTML/text body and reply
 ### Task 28: `SystemClock`
 
 **Files:**
+
 - Create: `src/lib/infrastructure/clock/SystemClock.ts`
 
 - [ ] **Step 1: Implement (no test needed — trivial)**
@@ -814,6 +814,7 @@ git commit -m "feat(infra): add SystemClock"
 ### Task 29: View-models
 
 **Files:**
+
 - Create: `src/lib/presentation/view-models/ProjectListItemViewModel.ts`, `ProjectDetailViewModel.ts`, `ExperienceViewModel.ts`, `SkillViewModel.ts`
 
 - [ ] **Step 1: Define view-models as plain TS interfaces**
@@ -891,6 +892,7 @@ git commit -m "feat(presentation): add view-models for projects, experiences, sk
 ### Task 30: Mappers
 
 **Files:**
+
 - Create: `src/lib/presentation/mappers/ProjectViewModelMapper.ts`, `ExperienceViewModelMapper.ts`, `SkillViewModelMapper.ts`
 - Test: corresponding test files
 
@@ -950,7 +952,10 @@ describe('ProjectViewModelMapper', () => {
 // src/lib/presentation/mappers/ProjectViewModelMapper.ts
 import type { Project } from '$domain/entities/Project';
 import type { ProjectListItemViewModel } from '$presentation/view-models/ProjectListItemViewModel';
-import type { ProjectDetailViewModel, ProjectMediaViewModel } from '$presentation/view-models/ProjectDetailViewModel';
+import type {
+  ProjectDetailViewModel,
+  ProjectMediaViewModel,
+} from '$presentation/view-models/ProjectDetailViewModel';
 
 export const ProjectViewModelMapper = {
   toListItem(p: Project): ProjectListItemViewModel {
@@ -1039,6 +1044,7 @@ git commit -m "feat(presentation): add mappers for projects, experiences, skills
 ### Task 31: Environment validation
 
 **Files:**
+
 - Create: `src/lib/server/env.ts`
 - Create: `.env.example`
 
@@ -1068,9 +1074,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
   const parsed = envSchema.safeParse(source);
   if (!parsed.success) {
     const flat = parsed.error.flatten();
-    throw new Error(
-      `Invalid environment variables: ${JSON.stringify(flat.fieldErrors, null, 2)}`,
-    );
+    throw new Error(`Invalid environment variables: ${JSON.stringify(flat.fieldErrors, null, 2)}`);
   }
   return parsed.data;
 }
@@ -1101,6 +1105,7 @@ git commit -m "feat(server): add Zod-validated env loader and .env.example"
 ### Task 32: Composition root
 
 **Files:**
+
 - Create: `src/lib/composition-root.ts`
 
 - [ ] **Step 1: Wire all dependencies**
@@ -1196,6 +1201,7 @@ git commit -m "feat: add composition root wiring all use cases and infrastructur
 ### Task 33: Design tokens (CSS variables)
 
 **Files:**
+
 - Create: `src/lib/styles/tokens.css`, `reset.css`, `typography.css`
 
 - [ ] **Step 1: `tokens.css`**
@@ -1219,8 +1225,7 @@ git commit -m "feat: add composition root wiring all use cases and infrastructur
   /* Typography */
   --font-sans:
     'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono:
-    'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', monospace;
 
   --font-size-hero: clamp(2rem, 4vw + 1rem, 2.5rem);
   --font-size-h1: 1.75rem;
@@ -1260,14 +1265,45 @@ git commit -m "feat: add composition root wiring all use cases and infrastructur
 
 ```css
 /* src/lib/styles/reset.css */
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; }
-img, video, svg { max-width: 100%; height: auto; display: block; }
-button, input, select, textarea { font: inherit; color: inherit; }
-button { background: none; border: 0; padding: 0; cursor: pointer; }
-a { color: inherit; text-decoration: none; }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 ```
 
 - [ ] **Step 3: `typography.css`**
@@ -1282,16 +1318,29 @@ body {
   background: var(--color-bg);
   font-feature-settings: 'cv11', 'ss01';
 }
-h1 { font-size: var(--font-size-h1); line-height: var(--line-height-tight); margin: 0; }
-h2 { font-size: var(--font-size-h2); line-height: var(--line-height-tight); margin: 0; }
-.subtitle { color: var(--color-text-secondary); }
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+.subtitle {
+  color: var(--color-text-secondary);
+}
 .caption {
   font-size: var(--font-size-caption);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
-code, pre { font-family: var(--font-mono); }
+code,
+pre {
+  font-family: var(--font-mono);
+}
 ```
 
 - [ ] **Step 4: Install Inter and import styles in root layout**
@@ -1335,6 +1384,7 @@ git commit -m "feat(ui): add design tokens, reset, typography and font loading"
 ### Task 34: `Button` component
 
 **Files:**
+
 - Create: `src/lib/components/Button.svelte`
 
 - [ ] **Step 1: Implement**
@@ -1367,20 +1417,44 @@ git commit -m "feat(ui): add design tokens, reset, typography and font loading"
 
 <style>
   .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.5rem 0.9rem;
     border-radius: var(--radius-md);
-    font-size: var(--font-size-body); font-weight: 500;
-    transition: background 120ms ease, border-color 120ms ease;
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease;
     border: 1px solid transparent;
   }
-  .btn--primary { background: var(--color-accent); color: #0a0e0a; }
-  .btn--primary:hover { background: var(--color-accent-strong); }
-  .btn--secondary { background: transparent; border-color: var(--color-border); color: var(--color-text); }
-  .btn--secondary:hover { border-color: var(--color-accent); }
-  .btn--ghost { background: transparent; color: var(--color-text-secondary); }
-  .btn--ghost:hover { color: var(--color-text); }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn--primary {
+    background: var(--color-accent);
+    color: #0a0e0a;
+  }
+  .btn--primary:hover {
+    background: var(--color-accent-strong);
+  }
+  .btn--secondary {
+    background: transparent;
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+  .btn--secondary:hover {
+    border-color: var(--color-accent);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+  }
+  .btn--ghost:hover {
+    color: var(--color-text);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 </style>
 ```
 
@@ -1396,6 +1470,7 @@ git commit -m "feat(ui): add Button component with primary/secondary/ghost varia
 ### Task 35: `Tag` component
 
 **Files:**
+
 - Create: `src/lib/components/Tag.svelte`
 
 - [ ] **Step 1: Implement**
@@ -1419,8 +1494,14 @@ git commit -m "feat(ui): add Button component with primary/secondary/ghost varia
     border-radius: var(--radius-sm);
     line-height: 1.4;
   }
-  .tag--soft { background: var(--color-accent-soft); color: var(--color-accent); }
-  .tag--outline { border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .tag--soft {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+  .tag--outline {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
 </style>
 ```
 
@@ -1436,6 +1517,7 @@ git commit -m "feat(ui): add Tag component"
 ### Task 36: `StatusBadge` component (live "available" indicator)
 
 **Files:**
+
 - Create: `src/lib/components/StatusBadge.svelte`
 
 - [ ] **Step 1: Implement**
@@ -1453,12 +1535,16 @@ git commit -m "feat(ui): add Tag component"
 
 <style>
   .status {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: var(--font-size-small);
     color: var(--color-text-secondary);
   }
   .dot {
-    width: 0.5rem; height: 0.5rem; border-radius: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
     background: var(--color-accent);
     box-shadow: 0 0 0 4px var(--color-accent-soft);
   }
@@ -1477,11 +1563,27 @@ git commit -m "feat(ui): add StatusBadge component"
 ### Task 37: `ProjectCard` component
 
 **Files:**
+
 - Create: `src/lib/components/ProjectCard.svelte`
 
 - [ ] **Step 1: Implement**
 
 ```svelte
+<script lang="ts" context="module">
+  function statusLabel(status: string): string {
+    switch (status) {
+      case 'finished':
+        return 'Terminé';
+      case 'in-progress':
+        return 'En cours';
+      case 'archived':
+        return 'Archivé';
+      default:
+        return status;
+    }
+  }
+</script>
+
 <!-- src/lib/components/ProjectCard.svelte -->
 <script lang="ts">
   import Tag from './Tag.svelte';
@@ -1504,17 +1606,6 @@ git commit -m "feat(ui): add StatusBadge component"
   </article>
 </a>
 
-<script lang="ts" context="module">
-  function statusLabel(status: string): string {
-    switch (status) {
-      case 'finished': return 'Terminé';
-      case 'in-progress': return 'En cours';
-      case 'archived': return 'Archivé';
-      default: return status;
-    }
-  }
-</script>
-
 <style>
   .card {
     display: block;
@@ -1522,13 +1613,35 @@ git commit -m "feat(ui): add StatusBadge component"
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-lg);
-    transition: border-color 120ms ease, transform 120ms ease;
+    transition:
+      border-color 120ms ease,
+      transform 120ms ease;
   }
-  .card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
-  h3 { font-size: var(--font-size-h2); }
-  .summary { color: var(--color-text-secondary); margin: var(--space-2) 0 var(--space-4); }
-  header { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
-  .stack { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  h3 {
+    font-size: var(--font-size-h2);
+  }
+  .summary {
+    color: var(--color-text-secondary);
+    margin: var(--space-2) 0 var(--space-4);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+  .stack {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
 </style>
 ```
 
@@ -1544,6 +1657,7 @@ git commit -m "feat(ui): add ProjectCard component"
 ### Task 38: `Timeline` and `TimelineItem` components
 
 **Files:**
+
 - Create: `src/lib/components/Timeline.svelte`, `TimelineItem.svelte`
 
 - [ ] **Step 1: Implement minimal timeline**
@@ -1557,10 +1671,20 @@ git commit -m "feat(ui): add ProjectCard component"
 <ol class="timeline">{@render children()}</ol>
 
 <style>
-  .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
   .timeline::before {
-    content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0;
-    width: 1px; background: var(--color-border);
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-border);
   }
 </style>
 ```
@@ -1592,15 +1716,31 @@ git commit -m "feat(ui): add ProjectCard component"
 </li>
 
 <style>
-  .item { position: relative; padding-left: 2rem; padding-bottom: var(--space-8); }
+  .item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: var(--space-8);
+  }
   .dot {
-    position: absolute; left: 0.25rem; top: 0.4rem;
-    width: 0.625rem; height: 0.625rem; border-radius: 50%;
+    position: absolute;
+    left: 0.25rem;
+    top: 0.4rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
     background: var(--color-accent);
   }
-  h3 { font-size: var(--font-size-h2); margin: var(--space-1) 0; }
-  .subtitle { color: var(--color-text-secondary); }
-  .body { margin-top: var(--space-3); color: var(--color-text-secondary); }
+  h3 {
+    font-size: var(--font-size-h2);
+    margin: var(--space-1) 0;
+  }
+  .subtitle {
+    color: var(--color-text-secondary);
+  }
+  .body {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+  }
 </style>
 ```
 
@@ -1616,6 +1756,7 @@ git commit -m "feat(ui): add Timeline and TimelineItem components"
 ### Task 39: Layout (header + footer + skip link)
 
 **Files:**
+
 - Modify: `src/routes/+layout.svelte`
 - Create: `src/lib/components/Header.svelte`, `Footer.svelte`
 
@@ -1652,15 +1793,33 @@ git commit -m "feat(ui): add Timeline and TimelineItem components"
 
 <style>
   header {
-    display: flex; align-items: center; gap: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
     padding: var(--space-4) var(--space-6);
     border-bottom: 1px solid var(--color-border-subtle);
   }
-  .brand { font-weight: 600; letter-spacing: -0.01em; }
-  nav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-4); }
-  nav a { color: var(--color-text-secondary); }
-  nav a:hover, nav a[aria-current='page'] { color: var(--color-accent); }
-  header > :last-child { margin-left: auto; }
+  .brand {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-4);
+  }
+  nav a {
+    color: var(--color-text-secondary);
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--color-accent);
+  }
+  header > :last-child {
+    margin-left: auto;
+  }
 </style>
 ```
 
@@ -1678,13 +1837,25 @@ git commit -m "feat(ui): add Timeline and TimelineItem components"
 
 <style>
   footer {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: var(--space-6); margin-top: var(--space-16);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    margin-top: var(--space-16);
     border-top: 1px solid var(--color-border-subtle);
-    color: var(--color-text-muted); font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
   }
-  ul { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-4); }
-  a:hover { color: var(--color-accent); }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-4);
+  }
+  a:hover {
+    color: var(--color-accent);
+  }
 </style>
 ```
 
@@ -1712,13 +1883,21 @@ git commit -m "feat(ui): add Timeline and TimelineItem components"
 
 <style>
   .skip-link {
-    position: absolute; left: -9999px; top: 0;
+    position: absolute;
+    left: -9999px;
+    top: 0;
     padding: var(--space-2) var(--space-4);
-    background: var(--color-accent); color: #0a0e0a;
+    background: var(--color-accent);
+    color: #0a0e0a;
   }
-  .skip-link:focus { left: var(--space-2); top: var(--space-2); z-index: 100; }
+  .skip-link:focus {
+    left: var(--space-2);
+    top: var(--space-2);
+    z-index: 100;
+  }
   main {
-    max-width: var(--container-max); margin: 0 auto;
+    max-width: var(--container-max);
+    margin: 0 auto;
     padding: var(--space-8) var(--space-6);
   }
 </style>
@@ -1740,6 +1919,7 @@ git commit -m "feat(ui): add Header, Footer, layout with skip link"
 ### Task 40: Home page (`/`)
 
 **Files:**
+
 - Modify: `src/routes/+page.svelte`
 - Create: `src/routes/+page.server.ts`
 
@@ -1803,11 +1983,23 @@ export const load: PageServerLoad = async () => {
 </section>
 
 <style>
-  .hero { padding: var(--space-12) 0 var(--space-16); display: grid; gap: var(--space-4); }
-  .hero h1 { font-size: var(--font-size-hero); letter-spacing: -0.02em; }
-  .ctas { display: flex; gap: var(--space-3); margin-top: var(--space-2); }
+  .hero {
+    padding: var(--space-12) 0 var(--space-16);
+    display: grid;
+    gap: var(--space-4);
+  }
+  .hero h1 {
+    font-size: var(--font-size-hero);
+    letter-spacing: -0.02em;
+  }
+  .ctas {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
   .grid {
-    display: grid; gap: var(--space-4);
+    display: grid;
+    gap: var(--space-4);
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     margin-top: var(--space-4);
   }
@@ -1826,6 +2018,7 @@ git commit -m "feat(pages): add home with hero, status badge, featured projects 
 ### Task 41: Projects list page (`/projets`)
 
 **Files:**
+
 - Create: `src/routes/projets/+page.svelte`, `src/routes/projets/+page.server.ts`
 
 - [ ] **Step 1: Server load**
@@ -1856,9 +2049,7 @@ export const load: PageServerLoad = async () => {
 <svelte:head><title>Projets — Yohan Finelle</title></svelte:head>
 
 <h1>Projets</h1>
-<p class="subtitle">
-  Une sélection de mes projets personnels, universitaires, et professionnels.
-</p>
+<p class="subtitle">Une sélection de mes projets personnels, universitaires, et professionnels.</p>
 
 <div class="grid">
   {#each data.projects as p (p.slug)}<ProjectCard project={p} />{/each}
@@ -1866,7 +2057,9 @@ export const load: PageServerLoad = async () => {
 
 <style>
   .grid {
-    display: grid; gap: var(--space-4); margin-top: var(--space-8);
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   }
 </style>
@@ -1884,6 +2077,7 @@ git commit -m "feat(pages): add /projets list page"
 ### Task 42: Project detail page (`/projets/[slug]`)
 
 **Files:**
+
 - Create: `src/routes/projets/[slug]/+page.svelte`, `+page.server.ts`
 
 - [ ] **Step 1: Server load**
@@ -1930,7 +2124,9 @@ export const load: PageServerLoad = async ({ params }) => {
     <span class="caption">{p.type}</span>
     <h1>{p.title}</h1>
     <p class="subtitle">{p.summary}</p>
-    <ul class="stack">{#each p.stack as t}<li><Tag>{t}</Tag></li>{/each}</ul>
+    <ul class="stack">
+      {#each p.stack as t}<li><Tag>{t}</Tag></li>{/each}
+    </ul>
     <div class="ctas">
       {#if p.repoUrl}<Button href={p.repoUrl}>Voir le code</Button>{/if}
       {#if p.liveUrl}<Button href={p.liveUrl} variant="secondary">Site en ligne</Button>{/if}
@@ -1951,7 +2147,9 @@ export const load: PageServerLoad = async ({ params }) => {
   {#if p.highlights.length > 0}
     <section>
       <h2>Points clés</h2>
-      <ul>{#each p.highlights as h}<li>{h}</li>{/each}</ul>
+      <ul>
+        {#each p.highlights as h}<li>{h}</li>{/each}
+      </ul>
     </section>
   {/if}
 
@@ -1959,7 +2157,8 @@ export const load: PageServerLoad = async ({ params }) => {
     <section class="media">
       {#each p.media as m}
         {#if m.type === 'image' || m.type === 'gif'}
-          <figure><img src={m.src} alt={m.alt} loading="lazy" />
+          <figure>
+            <img src={m.src} alt={m.alt} loading="lazy" />
             {#if m.caption}<figcaption>{m.caption}</figcaption>{/if}
           </figure>
         {/if}
@@ -1969,14 +2168,41 @@ export const load: PageServerLoad = async ({ params }) => {
 </article>
 
 <style>
-  article { display: grid; gap: var(--space-12); }
-  h1 { font-size: var(--font-size-hero); }
-  .ctas { display: flex; gap: var(--space-3); margin-top: var(--space-3); }
-  .stack { list-style: none; padding: 0; margin: var(--space-3) 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
-  .description :global(p) { color: var(--color-text-secondary); }
-  .media { display: grid; gap: var(--space-4); }
-  figure { margin: 0; }
-  figcaption { color: var(--color-text-muted); font-size: var(--font-size-small); margin-top: var(--space-2); }
+  article {
+    display: grid;
+    gap: var(--space-12);
+  }
+  h1 {
+    font-size: var(--font-size-hero);
+  }
+  .ctas {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  .stack {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-3) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .description :global(p) {
+    color: var(--color-text-secondary);
+  }
+  .media {
+    display: grid;
+    gap: var(--space-4);
+  }
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-small);
+    margin-top: var(--space-2);
+  }
 </style>
 ```
 
@@ -1992,6 +2218,7 @@ git commit -m "feat(pages): add /projets/[slug] detail page"
 ### Task 43: Parcours page (`/parcours`)
 
 **Files:**
+
 - Create: `src/routes/parcours/+page.svelte`, `+page.server.ts`
 
 - [ ] **Step 1: Server load**
@@ -2027,7 +2254,8 @@ export const load: PageServerLoad = async () => {
   let { data } = $props();
 
   const formatRange = (start: string, end: string | null) => {
-    const fmt = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+    const fmt = (iso: string) =>
+      new Date(iso).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     return `${fmt(start)} — ${end ? fmt(end) : 'présent'}`;
   };
 
@@ -2053,7 +2281,9 @@ export const load: PageServerLoad = async () => {
       >
         <p>{e.summary}</p>
         {#if e.highlights.length > 0}
-          <ul>{#each e.highlights as h}<li>{h}</li>{/each}</ul>
+          <ul>
+            {#each e.highlights as h}<li>{h}</li>{/each}
+          </ul>
         {/if}
       </TimelineItem>
     {/each}
@@ -2065,15 +2295,28 @@ export const load: PageServerLoad = async () => {
   {#each Object.entries(groups) as [category, skills]}
     <div class="group">
       <span class="caption">{category}</span>
-      <ul class="tags">{#each skills as s}<li><Tag>{s.name}</Tag></li>{/each}</ul>
+      <ul class="tags">
+        {#each skills as s}<li><Tag>{s.name}</Tag></li>{/each}
+      </ul>
     </div>
   {/each}
 </section>
 
 <style>
-  section { margin-top: var(--space-12); }
-  .group { margin: var(--space-4) 0; }
-  .tags { list-style: none; padding: 0; margin: var(--space-2) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  section {
+    margin-top: var(--space-12);
+  }
+  .group {
+    margin: var(--space-4) 0;
+  }
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
 </style>
 ```
 
@@ -2089,6 +2332,7 @@ git commit -m "feat(pages): add /parcours with experiences timeline and grouped 
 ### Task 44: Contact page (`/contact`)
 
 **Files:**
+
 - Create: `src/routes/contact/+page.svelte`, `+page.server.ts`
 
 - [ ] **Step 1: Server actions (validation + use case + return)**
@@ -2165,31 +2409,79 @@ export const actions: Actions = {
   <p class="success">Merci, ton message est bien arrivé.</p>
 {:else}
   <form method="POST" novalidate>
-    <label>Nom <input name="name" required maxlength="120" value={form?.values?.name ?? ''} /></label>
-    <label>Email <input type="email" name="email" required maxlength="320" value={form?.values?.email ?? ''} /></label>
-    <label>Sujet <input name="subject" required maxlength="200" value={form?.values?.subject ?? ''} /></label>
-    <label>Message
-      <textarea name="message" required maxlength="5000" rows="6">{form?.values?.message ?? ''}</textarea>
+    <label
+      >Nom <input name="name" required maxlength="120" value={form?.values?.name ?? ''} /></label
+    >
+    <label
+      >Email <input
+        type="email"
+        name="email"
+        required
+        maxlength="320"
+        value={form?.values?.email ?? ''}
+      /></label
+    >
+    <label
+      >Sujet <input
+        name="subject"
+        required
+        maxlength="200"
+        value={form?.values?.subject ?? ''}
+      /></label
+    >
+    <label
+      >Message
+      <textarea name="message" required maxlength="5000" rows="6"
+        >{form?.values?.message ?? ''}</textarea
+      >
     </label>
     <!-- Honeypot — hidden from real users -->
-    <label class="hp" aria-hidden="true">Site web<input name="website" tabindex="-1" autocomplete="off" /></label>
+    <label class="hp" aria-hidden="true"
+      >Site web<input name="website" tabindex="-1" autocomplete="off" /></label
+    >
     {#if form?.error}<p class="error">{form.error}</p>{/if}
     <Button type="submit">Envoyer</Button>
   </form>
 {/if}
 
 <style>
-  form { display: grid; gap: var(--space-4); max-width: var(--container-narrow); margin-top: var(--space-8); }
-  label { display: grid; gap: var(--space-1); font-size: var(--font-size-small); color: var(--color-text-secondary); }
-  input, textarea {
-    background: var(--color-bg-elevated); border: 1px solid var(--color-border);
-    border-radius: var(--radius-md); color: var(--color-text);
-    padding: var(--space-2) var(--space-3); font-size: var(--font-size-body);
+  form {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--container-narrow);
+    margin-top: var(--space-8);
   }
-  input:focus, textarea:focus { border-color: var(--color-accent); outline: none; }
-  .hp { position: absolute; left: -9999px; }
-  .error { color: var(--color-danger); }
-  .success { color: var(--color-accent); margin-top: var(--space-4); }
+  label {
+    display: grid;
+    gap: var(--space-1);
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+  }
+  input,
+  textarea {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-body);
+  }
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+    outline: none;
+  }
+  .hp {
+    position: absolute;
+    left: -9999px;
+  }
+  .error {
+    color: var(--color-danger);
+  }
+  .success {
+    color: var(--color-accent);
+    margin-top: var(--space-4);
+  }
 </style>
 ```
 
@@ -2213,6 +2505,7 @@ git commit -m "feat(pages): add /contact with form action, validation, honeypot,
 ### Task 45: CV download route + 404 page
 
 **Files:**
+
 - Move: `Yohan_FINELLE_CV.pdf` → `static/cv.pdf` (or symlink)
 - Create: `src/routes/+error.svelte`
 
@@ -2259,6 +2552,7 @@ git commit -m "feat: add CV download (static/cv.pdf) and error page"
 ### Task 46: Author the project Markdown files
 
 **Files:**
+
 - Create: `content/projects/deardiary.md`, `vanice.md`, `aprr.md`, `aie.md`, `pixometre.md`, `projet-24h.md`
 
 - [ ] **Step 1: For each project, write a `.md` file** following the schema in `projectFrontmatterSchema`. Use the data from the user's CV and brainstorm:
@@ -2291,6 +2585,7 @@ git commit -m "docs(content): add project markdown files (DearDiary, Vanice, APR
 ### Task 47: Author experiences and skills
 
 **Files:**
+
 - Create: `content/experiences/aprr.md`, `acodege.md`, `mdinformatique.md`
 - Create: `content/skills/skills.md`
 
@@ -2331,6 +2626,7 @@ git commit -m "docs(content): add project images and assets"
 ### Task 49: ADR documents
 
 **Files:**
+
 - Create: `docs/adr/0001-clean-architecture.md`, `0002-sveltekit-fullstack.md`, `0003-markdown-content.md`, `0004-result-error-handling.md`, `0005-routes-presentation-split.md`
 
 - [ ] **Step 1: Each ADR follows the format**
@@ -2342,12 +2638,15 @@ git commit -m "docs(content): add project images and assets"
 **Date:** 2026-05-04
 
 ## Context
+
 Why is this decision needed? What constraints exist?
 
 ## Decision
+
 What did we decide?
 
 ## Consequences
+
 What are the implications, tradeoffs, and what alternatives did we reject?
 ```
 
@@ -2365,6 +2664,7 @@ git commit -m "docs(adr): add architecture decision records 0001-0005"
 ### Task 50: README
 
 **Files:**
+
 - Create: `README.md`
 
 - [ ] **Step 1: Write README** with sections: pitch, stack, architecture (link to spec + ADR), local dev (`pnpm install && pnpm dev`), tests (`pnpm test`), build (`pnpm build`), deployment (`docker compose up -d`), CI badge.
@@ -2381,6 +2681,7 @@ git commit -m "docs: add README with pitch, stack, dev commands and links to arc
 ### Task 51: SEO and metadata
 
 **Files:**
+
 - Modify: `src/app.html` (preload Inter, set lang)
 - Create: `src/routes/sitemap.xml/+server.ts`
 - Create: `static/robots.txt`
@@ -2485,6 +2786,7 @@ git commit -m "perf: optimize images and font loading after Lighthouse audit"
 ### Task 54: Dockerfile
 
 **Files:**
+
 - Create: `Dockerfile`, `.dockerignore`
 
 - [ ] **Step 1: Multi-stage Dockerfile**
@@ -2573,6 +2875,7 @@ git commit -m "feat(deploy): add multi-stage Dockerfile and dockerignore"
 ### Task 55: docker-compose for VPS
 
 **Files:**
+
 - Create: `docker-compose.yml`
 
 - [ ] **Step 1: Compose file**
@@ -2611,6 +2914,7 @@ git commit -m "feat(deploy): add docker-compose for VPS deployment"
 ### Task 56: Release workflow (GitHub Container Registry)
 
 **Files:**
+
 - Create: `.github/workflows/release.yml`
 
 - [ ] **Step 1: Workflow**
@@ -2704,28 +3008,28 @@ git push origin v0.1.0
 
 **Spec coverage check:**
 
-| Spec section | Covered by |
-|---|---|
-| 1 Context, audience, goals | (informational only — no task) |
-| 2 Product strategy / pages | Tasks 40–45 |
-| 3.1 Tech stack | Tasks 1–6, 21 |
-| 3.2 Clean Architecture layers | Tasks 7–32 |
-| 3.3 Composition root | Task 32 |
-| 3.4 File structure | Tasks 7–48 (cumulative) |
-| 3.5 Data schemas | Tasks 7–14, 25 |
-| 3.6 Data flow | Tasks 17–20, 40–44 |
-| 3.7 Contact form flow | Tasks 14, 20, 26, 27, 44 |
-| 4 Design system | Tasks 33–39 |
-| 5 Error handling Result | Tasks 7, 8, every domain/application task |
-| 6 Tests | Tasks 4, 7–20, 22–27, 30 |
-| 7 CI/CD | Tasks 6, 56–58 |
-| 8 Security | Tasks 14, 20, 31, 32, 44 (rate limit, honeypot, env validation, ipHash) |
-| 9 Accessibility | Tasks 39, 52 |
-| 10 SEO | Task 51 |
-| 11 Documentation | Tasks 49, 50 |
-| 12 Roadmap | This plan |
-| 13 Hors scope | (negative space — nothing to implement) |
-| 14 Acceptance criteria | Verified by tasks 53, 57, 58 |
+| Spec section                  | Covered by                                                              |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| 1 Context, audience, goals    | (informational only — no task)                                          |
+| 2 Product strategy / pages    | Tasks 40–45                                                             |
+| 3.1 Tech stack                | Tasks 1–6, 21                                                           |
+| 3.2 Clean Architecture layers | Tasks 7–32                                                              |
+| 3.3 Composition root          | Task 32                                                                 |
+| 3.4 File structure            | Tasks 7–48 (cumulative)                                                 |
+| 3.5 Data schemas              | Tasks 7–14, 25                                                          |
+| 3.6 Data flow                 | Tasks 17–20, 40–44                                                      |
+| 3.7 Contact form flow         | Tasks 14, 20, 26, 27, 44                                                |
+| 4 Design system               | Tasks 33–39                                                             |
+| 5 Error handling Result       | Tasks 7, 8, every domain/application task                               |
+| 6 Tests                       | Tasks 4, 7–20, 22–27, 30                                                |
+| 7 CI/CD                       | Tasks 6, 56–58                                                          |
+| 8 Security                    | Tasks 14, 20, 31, 32, 44 (rate limit, honeypot, env validation, ipHash) |
+| 9 Accessibility               | Tasks 39, 52                                                            |
+| 10 SEO                        | Task 51                                                                 |
+| 11 Documentation              | Tasks 49, 50                                                            |
+| 12 Roadmap                    | This plan                                                               |
+| 13 Hors scope                 | (negative space — nothing to implement)                                 |
+| 14 Acceptance criteria        | Verified by tasks 53, 57, 58                                            |
 
 **Type consistency check:** signatures of `ProjectRepository`, `ContactMessageRepository`, `EmailService`, `Clock`, `useCases.*` are consistent across all tasks (defined in 15, used identically in 16, 17–20, 26, 27, 32, 40–44).
 
@@ -2738,6 +3042,7 @@ git push origin v0.1.0
 ## Execution Handoff
 
 **Plan complete and saved to:**
+
 - `docs/superpowers/plans/2026-05-04-portfolio-implementation.md` (Phases 0–2)
 - `docs/superpowers/plans/2026-05-04-portfolio-implementation-part2.md` (Phases 3–10)
 

@@ -14,19 +14,19 @@
 
 ## Phase Overview
 
-| Phase | Goal | Tasks |
-|---|---|---|
-| **Phase 0** | Project bootstrap | 1–6 |
-| **Phase 1** | Domain layer | 7–14 |
-| **Phase 2** | Application layer | 15–20 |
-| **Phase 3** | Infrastructure layer | 21–28 |
-| **Phase 4** | Presentation layer (mappers + view-models) | 29–32 |
-| **Phase 5** | Composition root + env | 33–35 |
-| **Phase 6** | Design system & shared UI components | 36–42 |
-| **Phase 7** | Pages | 43–50 |
-| **Phase 8** | Content authoring | 51–56 |
-| **Phase 9** | Polish (SEO, a11y, perf) | 57–61 |
-| **Phase 10** | Deployment & release | 62–66 |
+| Phase        | Goal                                       | Tasks |
+| ------------ | ------------------------------------------ | ----- |
+| **Phase 0**  | Project bootstrap                          | 1–6   |
+| **Phase 1**  | Domain layer                               | 7–14  |
+| **Phase 2**  | Application layer                          | 15–20 |
+| **Phase 3**  | Infrastructure layer                       | 21–28 |
+| **Phase 4**  | Presentation layer (mappers + view-models) | 29–32 |
+| **Phase 5**  | Composition root + env                     | 33–35 |
+| **Phase 6**  | Design system & shared UI components       | 36–42 |
+| **Phase 7**  | Pages                                      | 43–50 |
+| **Phase 8**  | Content authoring                          | 51–56 |
+| **Phase 9**  | Polish (SEO, a11y, perf)                   | 57–61 |
+| **Phase 10** | Deployment & release                       | 62–66 |
 
 Each phase ends with a green CI checkpoint.
 
@@ -39,6 +39,7 @@ Each phase ends with a green CI checkpoint.
 ### Task 1: Scaffold SvelteKit project
 
 **Files:**
+
 - Create: project skeleton via SvelteKit CLI
 
 - [ ] **Step 1: Run the SvelteKit init in the existing directory**
@@ -50,6 +51,7 @@ pnpm dlx sv create . --template minimal --types ts --no-add-ons
 ```
 
 When prompted "Directory not empty, continue?" answer **Yes**. Choose:
+
 - Template: **Minimal**
 - Type checking: **TypeScript syntax**
 - Additional options: **none for now** (we'll add ESLint/Prettier/Vitest manually for full control)
@@ -132,6 +134,7 @@ git commit -m "chore: scaffold SvelteKit project with adapter-node and path alia
 ### Task 2: TypeScript strict configuration
 
 **Files:**
+
 - Modify: `tsconfig.json`
 
 - [ ] **Step 1: Replace `tsconfig.json` content**
@@ -178,6 +181,7 @@ git commit -m "chore: enable TypeScript strict mode with stricter compiler optio
 ### Task 3: ESLint + Prettier setup
 
 **Files:**
+
 - Create: `.eslintrc.cjs`, `.eslintignore`, `.prettierrc`, `.prettierignore`, `.editorconfig`
 - Modify: `package.json` (scripts)
 
@@ -310,6 +314,7 @@ git commit -m "chore: configure ESLint, Prettier, EditorConfig"
 ### Task 4: Vitest setup
 
 **Files:**
+
 - Create: `vitest.config.ts`, `tests/setup.ts`
 - Modify: `package.json` (scripts)
 
@@ -390,6 +395,7 @@ git commit -m "chore: configure Vitest with coverage thresholds for domain and a
 ### Task 5: Husky, lint-staged, commitlint
 
 **Files:**
+
 - Create: `.husky/pre-commit`, `.husky/commit-msg`, `commitlint.config.cjs`, `lint-staged.config.cjs`
 
 - [ ] **Step 1: Install dependencies**
@@ -457,6 +463,7 @@ module.exports = {
 - [ ] **Step 8: Test the hooks**
 
 Make a trivial whitespace edit in any file, stage it, commit with a message like `chore: verify hooks`. Confirm:
+
 - lint-staged runs (output visible)
 - commit succeeds
 
@@ -488,6 +495,7 @@ git commit -m "chore: add Husky, lint-staged, commitlint with conventional commi
 ### Task 6: GitHub Actions CI
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 1: Create the workflow**
@@ -551,6 +559,7 @@ git commit -m "ci: add GitHub Actions workflow for lint, type-check, test, build
 ### Task 7: `Result<T, E>` type
 
 **Files:**
+
 - Create: `src/lib/domain/shared/Result.ts`
 - Test: `tests/domain/shared/Result.test.ts`
 
@@ -689,6 +698,7 @@ git commit -m "feat(domain): add Result<T, E> for railway-oriented error handlin
 ### Task 8: `DomainError` base class
 
 **Files:**
+
 - Create: `src/lib/domain/errors/DomainError.ts`
 - Test: `tests/domain/errors/DomainError.test.ts`
 
@@ -766,6 +776,7 @@ git commit -m "feat(domain): add DomainError base class with stable error codes"
 ### Task 9: `Email` value object
 
 **Files:**
+
 - Create: `src/lib/domain/value-objects/Email.ts`, `src/lib/domain/errors/InvalidEmailError.ts`
 - Test: `tests/domain/value-objects/Email.test.ts`
 
@@ -887,6 +898,7 @@ git commit -m "feat(domain): add Email value object with normalization and valid
 ### Task 10: `ProjectSlug` value object
 
 **Files:**
+
 - Create: `src/lib/domain/value-objects/ProjectSlug.ts`, `src/lib/domain/errors/InvalidProjectSlugError.ts`
 - Test: `tests/domain/value-objects/ProjectSlug.test.ts`
 
@@ -980,6 +992,7 @@ git commit -m "feat(domain): add ProjectSlug value object"
 ### Task 11: `DateRange`, `ProjectStatus`, `ProjectType`, `MediaAsset`, `TechStack` value objects
 
 **Files:**
+
 - Create: `src/lib/domain/value-objects/DateRange.ts`, `ProjectStatus.ts`, `ProjectType.ts`, `MediaAsset.ts`, `TechStack.ts`
 - Create: `src/lib/domain/errors/InvalidDateRangeError.ts`
 - Test: `tests/domain/value-objects/DateRange.test.ts`, `MediaAsset.test.ts`, `TechStack.test.ts`
@@ -1225,6 +1238,7 @@ git commit -m "feat(domain): add value objects (DateRange, MediaAsset, TechStack
 ### Task 12: `Project` entity
 
 **Files:**
+
 - Create: `src/lib/domain/entities/Project.ts`, `src/lib/domain/errors/ProjectNotFoundError.ts`
 - Test: `tests/domain/entities/Project.test.ts`
 
@@ -1350,20 +1364,48 @@ export class Project {
     return Result.ok(new Project(Object.freeze({ ...props })));
   }
 
-  get slug(): ProjectSlug { return this.props.slug; }
-  get title(): string { return this.props.title; }
-  get summary(): string { return this.props.summary; }
-  get description(): string { return this.props.description; }
-  get stack(): TechStack { return this.props.stack; }
-  get status(): ProjectStatus { return this.props.status; }
-  get type(): ProjectType { return this.props.type; }
-  get featured(): boolean { return this.props.featured; }
-  get dateRange(): DateRange { return this.props.dateRange; }
-  get repoUrl(): string | undefined { return this.props.repoUrl; }
-  get liveUrl(): string | undefined { return this.props.liveUrl; }
-  get media(): readonly MediaAsset[] { return this.props.media; }
-  get architecture(): string | undefined { return this.props.architecture; }
-  get highlights(): readonly string[] { return this.props.highlights; }
+  get slug(): ProjectSlug {
+    return this.props.slug;
+  }
+  get title(): string {
+    return this.props.title;
+  }
+  get summary(): string {
+    return this.props.summary;
+  }
+  get description(): string {
+    return this.props.description;
+  }
+  get stack(): TechStack {
+    return this.props.stack;
+  }
+  get status(): ProjectStatus {
+    return this.props.status;
+  }
+  get type(): ProjectType {
+    return this.props.type;
+  }
+  get featured(): boolean {
+    return this.props.featured;
+  }
+  get dateRange(): DateRange {
+    return this.props.dateRange;
+  }
+  get repoUrl(): string | undefined {
+    return this.props.repoUrl;
+  }
+  get liveUrl(): string | undefined {
+    return this.props.liveUrl;
+  }
+  get media(): readonly MediaAsset[] {
+    return this.props.media;
+  }
+  get architecture(): string | undefined {
+    return this.props.architecture;
+  }
+  get highlights(): readonly string[] {
+    return this.props.highlights;
+  }
 }
 ```
 
@@ -1381,6 +1423,7 @@ git commit -m "feat(domain): add Project entity with invariants and ProjectNotFo
 ### Task 13: `Experience` and `Skill` entities
 
 **Files:**
+
 - Create: `src/lib/domain/entities/Experience.ts`, `src/lib/domain/entities/Skill.ts`
 - Test: `tests/domain/entities/Experience.test.ts`, `Skill.test.ts`
 
@@ -1462,13 +1505,27 @@ export class Experience {
     return Result.ok(new Experience(Object.freeze({ ...props })));
   }
 
-  get company(): string { return this.props.company; }
-  get location(): string { return this.props.location; }
-  get role(): string { return this.props.role; }
-  get type(): ExperienceType { return this.props.type; }
-  get dateRange(): DateRange { return this.props.dateRange; }
-  get summary(): string { return this.props.summary; }
-  get highlights(): readonly string[] { return this.props.highlights; }
+  get company(): string {
+    return this.props.company;
+  }
+  get location(): string {
+    return this.props.location;
+  }
+  get role(): string {
+    return this.props.role;
+  }
+  get type(): ExperienceType {
+    return this.props.type;
+  }
+  get dateRange(): DateRange {
+    return this.props.dateRange;
+  }
+  get summary(): string {
+    return this.props.summary;
+  }
+  get highlights(): readonly string[] {
+    return this.props.highlights;
+  }
 }
 ```
 
@@ -1529,9 +1586,15 @@ export class Skill {
     return Result.ok(new Skill(Object.freeze({ ...props })));
   }
 
-  get name(): string { return this.props.name; }
-  get category(): SkillCategory { return this.props.category; }
-  get level(): SkillLevel { return this.props.level; }
+  get name(): string {
+    return this.props.name;
+  }
+  get category(): SkillCategory {
+    return this.props.category;
+  }
+  get level(): SkillLevel {
+    return this.props.level;
+  }
 }
 ```
 
@@ -1548,6 +1611,7 @@ git commit -m "feat(domain): add Experience and Skill entities with invariants"
 ### Task 14: `ContactMessage` entity + `ContactMessageRejectedError`
 
 **Files:**
+
 - Create: `src/lib/domain/entities/ContactMessage.ts`, `src/lib/domain/errors/ContactMessageRejectedError.ts`
 - Test: `tests/domain/entities/ContactMessage.test.ts`
 
@@ -1621,7 +1685,10 @@ export type ContactMessageRejectedReason =
 
 export class ContactMessageRejectedError extends DomainError {
   readonly code = 'CONTACT_MESSAGE_REJECTED';
-  constructor(public readonly reason: ContactMessageRejectedReason, message: string) {
+  constructor(
+    public readonly reason: ContactMessageRejectedReason,
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -1651,9 +1718,7 @@ export interface ContactMessageProps {
 export class ContactMessage {
   private constructor(private readonly props: Readonly<ContactMessageProps>) {}
 
-  static create(
-    props: ContactMessageProps,
-  ): Result<ContactMessage, ContactMessageRejectedError> {
+  static create(props: ContactMessageProps): Result<ContactMessage, ContactMessageRejectedError> {
     const name = props.name.trim();
     const subject = props.subject.trim();
     const message = props.message.trim();
@@ -1679,17 +1744,27 @@ export class ContactMessage {
         ),
       );
 
-    return Result.ok(
-      new ContactMessage(Object.freeze({ ...props, name, subject, message })),
-    );
+    return Result.ok(new ContactMessage(Object.freeze({ ...props, name, subject, message })));
   }
 
-  get id(): string { return this.props.id; }
-  get email(): Email { return this.props.email; }
-  get name(): string { return this.props.name; }
-  get subject(): string { return this.props.subject; }
-  get message(): string { return this.props.message; }
-  get receivedAt(): Date { return this.props.receivedAt; }
+  get id(): string {
+    return this.props.id;
+  }
+  get email(): Email {
+    return this.props.email;
+  }
+  get name(): string {
+    return this.props.name;
+  }
+  get subject(): string {
+    return this.props.subject;
+  }
+  get message(): string {
+    return this.props.message;
+  }
+  get receivedAt(): Date {
+    return this.props.receivedAt;
+  }
 }
 ```
 
@@ -1710,6 +1785,7 @@ git commit -m "feat(domain): add ContactMessage entity with length and rate-limi
 ### Task 15: Ports (interfaces)
 
 **Files:**
+
 - Create: `src/lib/application/ports/ProjectRepository.ts`, `ExperienceRepository.ts`, `SkillRepository.ts`, `ContactMessageRepository.ts`, `EmailService.ts`, `Clock.ts`
 
 - [ ] **Step 1: Define each port**
@@ -1785,9 +1861,7 @@ export interface ContactNotificationPayload {
 }
 
 export interface EmailService {
-  sendContactNotification(
-    payload: ContactNotificationPayload,
-  ): Promise<Result<void, DomainError>>;
+  sendContactNotification(payload: ContactNotificationPayload): Promise<Result<void, DomainError>>;
 }
 ```
 
@@ -1809,6 +1883,7 @@ git commit -m "feat(application): add repository, email and clock ports"
 ### Task 16: In-memory fakes (test doubles)
 
 **Files:**
+
 - Create: `tests/fakes/InMemoryProjectRepository.ts`, `InMemoryExperienceRepository.ts`, `InMemorySkillRepository.ts`, `InMemoryContactMessageRepository.ts`, `FakeEmailService.ts`, `FixedClock.ts`
 
 - [ ] **Step 1: Implement `InMemoryProjectRepository`**
@@ -1839,9 +1914,10 @@ export class InMemoryProjectRepository implements ProjectRepository {
 
   async findBySlug(slug: ProjectSlug) {
     const found = this.projects.find((p) => p.slug.equals(slug));
-    if (!found) return Result.err<Project, ProjectNotFoundError | DomainError>(
-      new ProjectNotFoundError(slug.toString()),
-    );
+    if (!found)
+      return Result.err<Project, ProjectNotFoundError | DomainError>(
+        new ProjectNotFoundError(slug.toString()),
+      );
     return Result.ok<Project, ProjectNotFoundError | DomainError>(found);
   }
 }
@@ -1858,8 +1934,12 @@ import type { DomainError } from '$domain/errors/DomainError';
 
 export class InMemoryExperienceRepository implements ExperienceRepository {
   constructor(private items: readonly Experience[] = []) {}
-  setItems(items: readonly Experience[]) { this.items = items; }
-  async findAll() { return Result.ok<readonly Experience[], DomainError>(this.items); }
+  setItems(items: readonly Experience[]) {
+    this.items = items;
+  }
+  async findAll() {
+    return Result.ok<readonly Experience[], DomainError>(this.items);
+  }
 }
 ```
 
@@ -1872,8 +1952,12 @@ import type { DomainError } from '$domain/errors/DomainError';
 
 export class InMemorySkillRepository implements SkillRepository {
   constructor(private items: readonly Skill[] = []) {}
-  setItems(items: readonly Skill[]) { this.items = items; }
-  async findAll() { return Result.ok<readonly Skill[], DomainError>(this.items); }
+  setItems(items: readonly Skill[]) {
+    this.items = items;
+  }
+  async findAll() {
+    return Result.ok<readonly Skill[], DomainError>(this.items);
+  }
 }
 ```
 
@@ -1915,7 +1999,9 @@ export class FakeEmailService implements EmailService {
   async sendContactNotification(payload: ContactNotificationPayload) {
     if (this.shouldFail) {
       return Result.err<void, DomainError>(
-        new (class extends Error { code = 'EMAIL_FAILED'; })('email failed') as unknown as DomainError,
+        new (class extends Error {
+          code = 'EMAIL_FAILED';
+        })('email failed') as unknown as DomainError,
       );
     }
     this.sent.push(payload);
@@ -1930,8 +2016,12 @@ import type { Clock } from '$application/ports/Clock';
 
 export class FixedClock implements Clock {
   constructor(private current: Date) {}
-  now(): Date { return new Date(this.current); }
-  set(d: Date): void { this.current = d; }
+  now(): Date {
+    return new Date(this.current);
+  }
+  set(d: Date): void {
+    this.current = d;
+  }
 }
 ```
 
@@ -1948,6 +2038,7 @@ git commit -m "test(fakes): add in-memory test doubles for repositories, email, 
 ### Task 17: `ListProjects` use case
 
 **Files:**
+
 - Create: `src/lib/application/use-cases/ListProjects.ts`
 - Test: `tests/application/use-cases/ListProjects.test.ts`
 
@@ -2052,6 +2143,7 @@ git commit -m "feat(application): add ListProjects use case"
 ### Task 18: `GetProjectBySlug` use case
 
 **Files:**
+
 - Create: `src/lib/application/use-cases/GetProjectBySlug.ts`
 - Test: `tests/application/use-cases/GetProjectBySlug.test.ts`
 
@@ -2132,6 +2224,7 @@ git commit -m "feat(application): add GetProjectBySlug use case"
 ### Task 19: `ListExperiences` and `ListSkills`
 
 **Files:**
+
 - Create: `src/lib/application/use-cases/ListExperiences.ts`, `ListSkills.ts`
 - Test: `tests/application/use-cases/ListExperiences.test.ts`, `ListSkills.test.ts`
 
@@ -2198,7 +2291,9 @@ import type { Skill } from '$domain/entities/Skill';
 import type { Result } from '$domain/shared/Result';
 import type { DomainError } from '$domain/errors/DomainError';
 
-export interface ListSkillsDeps { skillRepository: SkillRepository; }
+export interface ListSkillsDeps {
+  skillRepository: SkillRepository;
+}
 export type ListSkills = () => Promise<Result<readonly Skill[], DomainError>>;
 
 export function createListSkills({ skillRepository }: ListSkillsDeps): ListSkills {
@@ -2219,6 +2314,7 @@ git commit -m "feat(application): add ListExperiences and ListSkills use cases"
 ### Task 20: `SubmitContactMessage` use case
 
 **Files:**
+
 - Create: `src/lib/application/use-cases/SubmitContactMessage.ts`
 - Test: `tests/application/use-cases/SubmitContactMessage.test.ts`
 
@@ -2240,7 +2336,15 @@ const setup = () => ({
   clock: new FixedClock(new Date('2026-05-04T10:00:00Z')),
 });
 
-const validInput = (overrides: Partial<{ email: string; name: string; subject: string; message: string; ipHash: string }> = {}) => ({
+const validInput = (
+  overrides: Partial<{
+    email: string;
+    name: string;
+    subject: string;
+    message: string;
+    ipHash: string;
+  }> = {},
+) => ({
   email: 'user@example.com',
   name: 'Alice',
   subject: 'Hello',
@@ -2336,8 +2440,7 @@ export type SubmitContactMessage = (
 >;
 
 const defaultIdGenerator = (): string =>
-  globalThis.crypto?.randomUUID?.() ??
-  `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 export function createSubmitContactMessage({
   contactRepository,
