@@ -6,8 +6,12 @@ node_modules/
 .svelte-kit/
 build/
 dist/
+.output/
 .vercel/
 .netlify/
+.wrangler/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
 
 # Environment
 .env
@@ -45,6 +49,9 @@ coverage/
 
 # Superpowers / brainstorm artifacts
 .superpowers/
+
+# Claude Code harness settings
+.claude/
 
 # Personal documents (CV ne doit PAS être commité ici, il ira dans static/)
 Yohan_FINELLE_CV.pdf
