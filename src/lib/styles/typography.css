@@ -1,0 +1,31 @@
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-feature-settings: 'cv11', 'ss01';
+}
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+.subtitle {
+  color: var(--color-text-secondary);
+}
+.caption {
+  font-size: var(--font-size-caption);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+code,
+pre {
+  font-family: var(--font-mono);
+}

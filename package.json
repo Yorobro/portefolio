@@ -52,6 +52,8 @@
     "vitest": "^4.1.5"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
     "better-sqlite3": "^12.9.0",
     "drizzle-orm": "^0.45.2",
     "gray-matter": "^4.0.3",
