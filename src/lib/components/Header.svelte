@@ -5,6 +5,7 @@
     { href: '/', label: 'Accueil' },
     { href: '/projets', label: 'Projets' },
     { href: '/parcours', label: 'Parcours' },
+    { href: '/competences', label: 'Compétences' },
   ];
 </script>
 
