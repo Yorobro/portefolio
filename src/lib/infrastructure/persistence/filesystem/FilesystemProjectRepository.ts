@@ -98,7 +98,11 @@ export function createFilesystemProjectRepository(
     async findFeatured() {
       const all = await loadAll();
       if (!all.ok) return all;
-      return Result.ok(all.value.filter((p) => p.featured));
+      const featured = all.value
+        .filter((p) => p.featured)
+        .slice()
+        .sort((a, b) => b.dateRange.start.getTime() - a.dateRange.start.getTime());
+      return Result.ok(featured);
     },
     async findBySlug(slug: ProjectSlug) {
       const all = await loadAll();
