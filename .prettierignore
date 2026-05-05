@@ -4,4 +4,3 @@ dist/
 node_modules/
 coverage/
 pnpm-lock.yaml
-src/lib/infrastructure/persistence/sqlite/migrations/
