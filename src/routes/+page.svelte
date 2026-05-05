@@ -8,37 +8,43 @@
 </script>
 
 <svelte:head>
-  <title>Yohan Finelle — Étudiant développeur fullstack</title>
+  <title>Yohan Finelle - Développeur, spécialité architecture logicielle</title>
   <meta
     name="description"
-    content="Portfolio de Yohan Finelle, étudiant en BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur, rentrée 2026."
+    content="Yohan Finelle, étudiant en BUT Informatique (Bac+3) à Dijon. Front, back, fullstack. Spécialisation architecture logicielle. Cherche une alternance pour 2026."
   />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Yohan Finelle — Étudiant développeur fullstack" />
+  <meta
+    property="og:title"
+    content="Yohan Finelle - Développeur, spécialité architecture logicielle"
+  />
   <meta
     property="og:description"
-    content="BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur 2026-2029."
+    content="BUT Informatique (Bac+3). Front, back, fullstack. Spécialisation architecture logicielle. Cherche une alternance pour entrer en cycle ingénieur en 2026."
   />
   <meta property="og:locale" content="fr_FR" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Yohan Finelle — Étudiant développeur fullstack" />
+  <meta
+    name="twitter:title"
+    content="Yohan Finelle - Développeur, spécialité architecture logicielle"
+  />
   <meta
     name="twitter:description"
-    content="BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur 2026-2029."
+    content="BUT Informatique (Bac+3). Front, back, fullstack. Spécialisation architecture logicielle. Cherche une alternance pour entrer en cycle ingénieur en 2026."
   />
 </svelte:head>
 
 <section class="hero">
-  <StatusBadge label="Disponible · sept. 2026" />
+  <StatusBadge label="Disponible - sept. 2026" />
   <p class="display" aria-hidden="true">Yohan Finelle.</p>
-  <h1>Étudiant développeur fullstack — BUT Informatique, Bac+3.</h1>
+  <h1>Étudiant en développement logiciel - BUT Informatique, Bac+3.</h1>
   <p class="subtitle">
-    Spring Boot, Angular, Clean Architecture. Recherche alternance pour intégrer un cycle ingénieur
-    (Bac+5) à la rentrée 2026.
+    Front, back, fullstack. Spécialisation architecture logicielle. Je cherche une alternance pour
+    entrer en cycle ingénieur (Bac+5) à la rentrée 2026, avec l'idée de devenir architecte logiciel.
   </p>
   <div class="ctas">
     <Button href="/projets">Voir mes projets →</Button>
@@ -47,16 +53,17 @@
 </section>
 
 <section class="about" aria-labelledby="about-title">
-  <img class="about-photo" src="/images/yohan-placeholder.svg" alt="Yohan Finelle" />
+  <img class="about-photo" src="/images/yohan.png" alt="Yohan Finelle" />
   <div class="about-text">
     <h2 id="about-title">À propos</h2>
     <p>
-      Étudiant en BUT Informatique à Dijon, je code en autonomie depuis le lycée et j'aime les
-      architectures soignées (hexagonale, Clean Architecture, MVVM).
+      Je suis en BUT Informatique à Dijon, je développe des applications depuis le lycée - du front,
+      du back, du fullstack. Ce qui me passionne vraiment, c'est l'architecture logicielle : comment
+      un projet reste lisible, testable et maintenable quand il grossit.
     </p>
     <p>
-      Je cherche une alternance qui me pousse sur la qualité de code et l'ingénierie logicielle pour
-      préparer mon entrée en cycle ingénieur en septembre 2026.
+      Je cherche une alternance qui me pousse sur ces sujets pour préparer mon cycle ingénieur en
+      2026. À terme, je veux faire de l'architecture logicielle mon métier.
     </p>
   </div>
 </section>
@@ -72,17 +79,15 @@
 
 {#if data.softSkills.length > 0}
   <section class="soft-skills">
-    <h2>Comment je travaille</h2>
-    <p class="subtitle">Ce qui me caractérise au-delà des outils techniques.</p>
+    <h2>Comment je bosse</h2>
+    <p class="subtitle">Au-delà des outils, ce qui me caractérise au quotidien.</p>
     <SoftSkills skills={data.softSkills} />
   </section>
 {/if}
 
 <section class="contact">
   <h2>Me contacter</h2>
-  <p class="subtitle">
-    Pour une alternance, une question, ou simplement échanger — voici comment me joindre.
-  </p>
+  <p class="subtitle">Pour une alternance ou une question, voici comment me joindre.</p>
   <ContactInfo />
 </section>
 
