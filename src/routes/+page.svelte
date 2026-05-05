@@ -8,41 +8,56 @@
 </script>
 
 <svelte:head>
-  <title>Yohan Finelle — Étudiant ingénieur fullstack</title>
+  <title>Yohan Finelle — Étudiant développeur fullstack</title>
   <meta
     name="description"
-    content="Portfolio de Yohan Finelle, étudiant en BUT Informatique. Spring Boot, Angular, Clean Architecture. En recherche d'alternance pour la rentrée 2026."
+    content="Portfolio de Yohan Finelle, étudiant en BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur, rentrée 2026."
   />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Yohan Finelle — Étudiant ingénieur fullstack" />
+  <meta property="og:title" content="Yohan Finelle — Étudiant développeur fullstack" />
   <meta
     property="og:description"
-    content="Portfolio d'un étudiant fullstack en recherche d'alternance pour cycle ingénieur 2026-2029."
+    content="BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur 2026-2029."
   />
   <meta property="og:locale" content="fr_FR" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Yohan Finelle — Étudiant ingénieur fullstack" />
+  <meta name="twitter:title" content="Yohan Finelle — Étudiant développeur fullstack" />
   <meta
     name="twitter:description"
-    content="Portfolio d'un étudiant fullstack en recherche d'alternance pour cycle ingénieur 2026-2029."
+    content="BUT Informatique (Bac+3). Spring Boot, Angular, Clean Architecture. Recherche alternance pour cycle ingénieur 2026-2029."
   />
 </svelte:head>
 
 <section class="hero">
   <StatusBadge label="Disponible · sept. 2026" />
   <p class="display" aria-hidden="true">Yohan Finelle.</p>
-  <h1>Étudiant ingénieur logiciel fullstack.</h1>
+  <h1>Étudiant développeur fullstack — BUT Informatique, Bac+3.</h1>
   <p class="subtitle">
-    BUT Informatique. Spring Boot, Angular, Clean Architecture. En recherche d'alternance pour
-    intégrer un cycle ingénieur 2026–2029.
+    Spring Boot, Angular, Clean Architecture. Recherche alternance pour intégrer un cycle ingénieur
+    (Bac+5) à la rentrée 2026.
   </p>
   <div class="ctas">
     <Button href="/projets">Voir mes projets →</Button>
     <Button href="/cv.pdf" variant="secondary">Télécharger le CV</Button>
+  </div>
+</section>
+
+<section class="about" aria-labelledby="about-title">
+  <img class="about-photo" src="/images/yohan-placeholder.svg" alt="Yohan Finelle" />
+  <div class="about-text">
+    <h2 id="about-title">À propos</h2>
+    <p>
+      Étudiant en BUT Informatique à Dijon, je code en autonomie depuis le lycée et j'aime les
+      architectures soignées (hexagonale, Clean Architecture, MVVM).
+    </p>
+    <p>
+      Je cherche une alternance qui me pousse sur la qualité de code et l'ingénierie logicielle pour
+      préparer mon entrée en cycle ingénieur en septembre 2026.
+    </p>
   </div>
 </section>
 
@@ -95,6 +110,39 @@
     display: flex;
     gap: var(--space-3);
     margin-top: var(--space-2);
+  }
+  .about {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+  .about-photo {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-elevated);
+  }
+  .about-text {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .about-text h2 {
+    margin: 0;
+  }
+  .about-text p {
+    color: var(--color-text-secondary);
+  }
+  @media (max-width: 30rem) {
+    .about {
+      grid-template-columns: 1fr;
+      justify-items: start;
+      gap: var(--space-4);
+    }
   }
   .grid {
     display: grid;
