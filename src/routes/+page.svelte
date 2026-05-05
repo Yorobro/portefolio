@@ -126,7 +126,7 @@
   }
   .about-photo {
     width: 11rem;
-    height: 11rem;
+    height: 14.5rem;
     border-radius: var(--radius-lg);
     object-fit: cover;
     border: 1px solid var(--color-border-subtle);
