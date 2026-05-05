@@ -1,9 +1,11 @@
 import type { RequestHandler } from './$types';
 import { useCases, appConfig } from '$lib/composition-root';
 
+export const prerender = true;
+
 export const GET: RequestHandler = async () => {
   const baseUrl = appConfig.publicSiteUrl.replace(/\/$/, '');
-  const staticPaths = ['/', '/projets', '/parcours', '/contact'];
+  const staticPaths = ['/', '/projets', '/parcours', '/competences'];
   const projects = await useCases.listProjects({});
   const projectPaths: string[] = [];
   if (projects.ok) {
