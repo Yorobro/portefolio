@@ -19,7 +19,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "serve": "npx serve build --port 3000"
+    "serve": "npx serve build"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.3",
