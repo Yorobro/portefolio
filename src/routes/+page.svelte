@@ -125,9 +125,9 @@
     margin-bottom: var(--space-12);
   }
   .about-photo {
-    width: 7.5rem;
-    height: 7.5rem;
-    border-radius: 50%;
+    width: 11rem;
+    height: 11rem;
+    border-radius: var(--radius-lg);
     object-fit: cover;
     border: 1px solid var(--color-border-subtle);
     background: var(--color-bg-elevated);
