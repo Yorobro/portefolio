@@ -1,44 +1,45 @@
-# ADR 0005 — `routes/` and the presentation layer split
+# ADR 0005 — Découpage entre `routes/` et la couche présentation
 
-**Status:** Accepted
-**Date:** 2026-05-04
+**Statut :** Accepté
+**Date :** 2026-05-04
 
-## Context
+## Contexte
 
-SvelteKit forces a `src/routes/` directory for file-based routing — the framework reads the
-filesystem to decide which URL maps to which page. Conceptually, that directory is part of the
-**presentation layer**, but the rest of the presentation layer (view-models, domain-to-VM
-mappers, page-level orchestration) lives in `src/lib/presentation/`. A strict reading of Clean
-Architecture would forbid framework-specific code inside the presentation layer; in practice
-SvelteKit gives no way out.
+SvelteKit impose un répertoire `src/routes/` pour le routage par système de fichiers — le
+framework lit le filesystem pour décider quelle URL correspond à quelle page. Conceptuellement,
+ce répertoire fait partie de la **couche présentation**, mais le reste de cette couche
+(view-models, mappers domaine→VM, orchestration au niveau des pages) vit dans
+`src/lib/presentation/`. Une lecture stricte de la Clean Architecture interdirait du code
+spécifique au framework dans la couche présentation ; en pratique, SvelteKit ne laisse pas
+d'échappatoire.
 
-## Decision
+## Décision
 
-Treat the presentation layer as **physically split** between two directories:
+Considérer la couche présentation comme **physiquement scindée** entre deux répertoires :
 
-- `src/lib/presentation/` — reusable, framework-agnostic logic: view-models, mappers, page
-  orchestrators. Importable, testable in isolation, no SvelteKit imports.
-- `src/routes/` — SvelteKit-specific page controllers (`+page.server.ts`) and components
-  (`+page.svelte`), forced by the file-based routing convention.
+- `src/lib/presentation/` — logique réutilisable, indépendante du framework : view-models,
+  mappers, orchestrateurs de pages. Importable, testable en isolation, sans imports SvelteKit.
+- `src/routes/` — contrôleurs de pages spécifiques à SvelteKit (`+page.server.ts`) et composants
+  (`+page.svelte`), imposés par la convention de routage par filesystem.
 
-`+page.server.ts` files stay **thin**: resolve dependencies from the composition root, delegate
-to use cases, map results to view-models, return the JSON-serializable payload. No business
-logic in routes. The split is documented here and in section 3.2.5 of
-`docs/superpowers/specs/2026-05-04-portfolio-design.md`.
+Les fichiers `+page.server.ts` restent **fins** : récupérer les dépendances depuis le composition
+root, déléguer aux use cases, mapper les résultats en view-models, renvoyer la charge utile
+JSON-sérialisable. Aucune logique métier dans les routes.
 
-## Consequences
+## Conséquences
 
-- Pro: pragmatic — works with the framework rather than against it. Routes are small and
-  predictable, so a new contributor can navigate the codebase without surprises.
-- Pro: `lib/presentation/` is reusable if the project ever migrates to another framework
-  (e.g., Astro), since none of the orchestration logic depends on SvelteKit primitives.
-- Pro: testing focuses on `lib/presentation/`; `routes/` files are thin enough that integration
-  tests cover them without unit tests.
-- Con: a strict reading of Clean Architecture would require zero framework code in the
-  presentation layer. We accept this compromise as an honest documentation of reality, not as
-  hidden debt.
-- Rejected: stub `routes/` files that re-export from `lib/presentation/pages/...` — adds two
-  files per page with no real benefit, hurts readability, and merely hides the framework
-  coupling instead of acknowledging it.
+- Pour : pragmatique — on travaille avec le framework plutôt que contre lui. Les routes sont
+  petites et prévisibles ; un nouveau contributeur peut naviguer dans le code sans surprise.
+- Pour : `lib/presentation/` reste réutilisable si le projet migrait un jour vers un autre
+  framework (par ex. Astro), puisque aucune logique d'orchestration ne dépend de primitives
+  SvelteKit.
+- Pour : les tests se concentrent sur `lib/presentation/` ; les fichiers de `routes/` sont
+  assez fins pour que des tests d'intégration suffisent à les couvrir.
+- Contre : une lecture stricte de la Clean Architecture exigerait zéro code de framework dans
+  la couche présentation. On accepte ce compromis comme une documentation honnête de la
+  réalité, pas comme une dette cachée.
+- Rejeté : des fichiers `routes/` qui ne feraient que ré-exporter depuis `lib/presentation/pages/...`
+  — ajoute deux fichiers par page sans bénéfice réel, nuit à la lisibilité, et masque le
+  couplage au framework au lieu de l'assumer.
 
-See ADR 0001 for the broader Clean Architecture context.
+Voir l'ADR 0001 pour le contexte plus large de Clean Architecture.

@@ -1,46 +1,44 @@
-# ADR 0004 — Result<T, E> over exceptions
+# ADR 0004 — Result<T, E> plutôt que les exceptions
 
-**Status:** Accepted
-**Date:** 2026-05-04
+**Statut :** Accepté
+**Date :** 2026-05-04
 
-## Context
+## Contexte
 
-The domain and application layers need a consistent way to handle failure cases: invalid email
-on the contact form, project not found by slug, contact rate-limited, email delivery failed,
-malformed markdown frontmatter. Three idiomatic options in TypeScript:
+Les couches domaine et application doivent traiter de manière cohérente les cas d'échec :
+projet introuvable par son slug, frontmatter markdown malformé, erreurs de lecture du système
+de fichiers. Trois options idiomatiques en TypeScript :
 
-- (a) Throw exceptions and let `try/catch` propagate them.
-- (b) Return a `Result<T, E>` discriminated union (railway-oriented programming).
-- (c) Return `T | null` / `T | undefined` with no error context.
+- (a) Lever des exceptions et laisser `try/catch` les propager.
+- (b) Renvoyer une union discriminée `Result<T, E>` (programmation orientée railway).
+- (c) Renvoyer `T | null` / `T | undefined` sans contexte d'erreur.
 
-The domain must remain pure (no framework imports), and recruiters reviewing the code should see
-explicit, type-checked error handling.
+Le domaine doit rester pur (aucun import de framework), et les recruteurs qui relisent le code
+doivent voir un traitement d'erreurs explicite et vérifié par le typage.
 
-## Decision
+## Décision
 
-`Result<T, E>` lives in `src/lib/domain/shared/Result.ts`, with `map` / `flatMap` for chaining.
-Every domain factory and every use case returns `Result<Success, DomainError>`. Infrastructure
-adapters catch external exceptions (DB driver, email API, filesystem) and convert them into
-`Result.err` at the boundary. The `DomainError` union is per-use-case, so TypeScript narrows
-exhaustively at the call site.
+`Result<T, E>` vit dans `src/lib/domain/shared/Result.ts`, avec `map` / `flatMap` pour le
+chaînage. Chaque fabrique du domaine et chaque use case renvoie `Result<Success, DomainError>`.
+Les adaptateurs d'infrastructure capturent les exceptions externes (lecture filesystem, parsing)
+et les convertissent en `Result.err` à la frontière. L'union `DomainError` est définie par use
+case, ce qui permet à TypeScript de réduire exhaustivement au point d'appel.
 
-## Consequences
+## Conséquences
 
-- Pro: errors are values, type-checked end-to-end. TypeScript infers the error union per use
-  case, so a forgotten branch is a compile error.
-- Pro: forces explicit handling — no silently swallowed exceptions, no surprise 500s in
-  production.
-- Pro: composable through `map` / `flatMap`. Demonstrated by 7 algebraic-law tests in
-  `Result.test.ts` (identity, associativity, etc.).
-- Pro: pairs naturally with the Clean Architecture boundary — infrastructure does the
-  exception/Result translation, the rest of the codebase stays pure.
-- Con: more verbose than `try/catch`. Each chained call needs `if (!r.ok) return Result.err(...)`
-  or a `flatMap`.
-- Con: requires discipline at the framework boundary. SvelteKit form actions still throw on
-  unexpected errors; we convert `Result.err` into `fail()` returns explicitly.
-- Rejected: exceptions (option a) — silently propagate, easy to forget catching, defeat the
-  type system.
-- Rejected: null returns (option c) — collapse error info; the caller can't tell whether the
-  project was missing, the file was malformed, or the disk was unavailable.
-
-See `docs/superpowers/specs/2026-05-04-portfolio-design.md` for use-case error tables.
+- Pour : les erreurs sont des valeurs, vérifiées par le typage de bout en bout. TypeScript
+  infère l'union d'erreurs par use case ; oublier une branche devient une erreur de compilation.
+- Pour : impose un traitement explicite — pas d'exceptions silencieusement avalées, pas de 500
+  surprises en production.
+- Pour : composable via `map` / `flatMap`. Démontré par 7 tests de lois algébriques dans
+  `Result.test.ts` (identité, associativité, etc.).
+- Pour : s'accorde naturellement avec la frontière de la Clean Architecture — l'infrastructure
+  fait la traduction exception/Result, le reste du code reste pur.
+- Contre : plus verbeux que `try/catch`. Chaque appel chaîné nécessite un
+  `if (!r.ok) return Result.err(...)` ou un `flatMap`.
+- Contre : exige de la discipline à la frontière du framework. Les loaders SvelteKit
+  s'attendent à des exceptions ; on convertit `Result.err` en `error()`/`fail()` explicitement.
+- Rejeté : exceptions (option a) — propagation silencieuse, faciles à oublier, contournent le
+  système de types.
+- Rejeté : retour `null` (option c) — efface l'information d'erreur ; l'appelant ne peut pas
+  distinguer un projet absent d'un fichier malformé ou d'un disque indisponible.

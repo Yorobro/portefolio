@@ -1,40 +1,50 @@
-# ADR 0002 — SvelteKit fullstack with adapter-node
+# ADR 0002 — SvelteKit fullstack avec adapter-node
 
-**Status:** Accepted
-**Date:** 2026-05-04
+**Statut :** Remplacé par [ADR 0006](./0006-passage-adapter-static.md)
+**Date :** 2026-05-04
 
-## Context
+> Cet ADR est conservé pour traçabilité historique. Le formulaire de contact a été retiré
+> et l'application est désormais entièrement statique (voir ADR 0006).
 
-Yohan's professional stack is Java/Spring + Angular. For the portfolio he wanted to use Svelte
-and Node.js to demonstrate breadth beyond his day-to-day tools. Three options were on the table:
+## Contexte
 
-- (a) An SSG static markdown site (e.g., Astro/Eleventy build to static HTML).
-- (b) A monorepo with SvelteKit on the frontend and a separate Node API on the backend.
+La stack professionnelle de Yohan est Java/Spring + Angular. Pour le portfolio, il a souhaité
+utiliser Svelte et Node.js pour démontrer une polyvalence au-delà de ses outils du quotidien.
+Trois options étaient sur la table :
+
+- (a) Un site SSG markdown statique (par ex. Astro/Eleventy générant du HTML statique).
+- (b) Un monorepo avec SvelteKit côté frontend et une API Node séparée côté backend.
 - (c) SvelteKit fullstack via `adapter-node`.
 
-Constraints: must include a working contact form (real server-side logic, not a Formspree-style
-proxy), must demonstrate TypeScript end-to-end, must keep the deployment simple for a single
-developer.
+Contraintes : devoir inclure un formulaire de contact fonctionnel (vraie logique côté serveur,
+pas un proxy de type Formspree), démontrer TypeScript de bout en bout, garder le déploiement
+simple pour un développeur seul.
 
-## Decision
+## Décision
 
-SvelteKit with `adapter-node`. Pages are server-rendered (SSR): `+page.server.ts` runs on Node,
-`+page.svelte` runs both server-side (initial HTML) and client-side (hydration). Form actions
-handle the contact form server-side, returning `Result`-mapped payloads via `fail()`.
+SvelteKit avec `adapter-node`. Les pages sont rendues côté serveur (SSR) : `+page.server.ts`
+s'exécute sur Node, `+page.svelte` s'exécute à la fois côté serveur (HTML initial) et côté
+client (hydratation). Les form actions traitent le formulaire de contact côté serveur, en
+renvoyant des charges utiles mappées via `Result` à travers `fail()`.
 
-## Consequences
+## Conséquences
 
-- Pro: single repository, single deploy artifact, SSR for SEO and perceived performance.
-- Pro: lets the user keep one mental model — no API/client boundary to design for a small site.
-- Pro: the contact form becomes a real demonstration of server-side TypeScript, with
-  railway-oriented `Result` handling (see ADR 0004) instead of an external SaaS proxy.
-- Pro: progressive enhancement — the form works without JavaScript thanks to SvelteKit form
-  actions.
-- Con: requires a Node.js runtime in production (not pure static hosting). Not a real downside
-  given the form requirement.
-- Rejected: SSG (option a) — couldn't host a real form action; static-only is too limited to
-  show "I know Node.js too".
-- Rejected: monorepo separate API (option b) — overkill for a 5-page site, adds CI/deploy
-  complexity, hides the fullstack story behind two deploys.
+- Pour : un seul dépôt, un seul artefact de déploiement, SSR pour le SEO et la performance
+  perçue.
+- Pour : permet de garder un seul modèle mental — pas de frontière API/client à concevoir
+  pour un petit site.
+- Pour : le formulaire de contact devient une vraie démonstration de TypeScript côté serveur,
+  avec une gestion d'erreurs en mode railway via `Result` (voir ADR 0004) plutôt qu'un proxy
+  SaaS externe.
+- Pour : amélioration progressive — le formulaire fonctionne sans JavaScript grâce aux form
+  actions SvelteKit.
+- Contre : nécessite un runtime Node.js en production (pas d'hébergement purement statique).
+  Pas un vrai inconvénient compte tenu de l'exigence du formulaire.
+- Rejeté : SSG (option a) — ne pouvait pas héberger une vraie form action.
+- Rejeté : monorepo avec API séparée (option b) — sur-dimensionné pour un site de 5 pages.
 
-See `docs/superpowers/specs/2026-05-04-portfolio-design.md` for the runtime-architecture section.
+## Suite
+
+Le formulaire de contact a finalement été retiré du périmètre. L'argument central de cet ADR
+disparaît avec lui. Voir [ADR 0006](./0006-passage-adapter-static.md) pour la décision de
+migrer vers `adapter-static`.

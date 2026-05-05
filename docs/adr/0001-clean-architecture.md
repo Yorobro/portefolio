@@ -1,44 +1,42 @@
 # ADR 0001 — Clean Architecture
 
-**Status:** Accepted
-**Date:** 2026-05-04
+**Statut :** Accepté
+**Date :** 2026-05-04
 
-## Context
+## Contexte
 
-This portfolio belongs to Yohan Finelle, a student in BUT Informatique who wants to demonstrate
-**architectural rigor** to recruiters and engineering schools (cycle ingénieur). Strictly speaking,
-a 5-page CV site is small enough that "Clean Architecture" could be over-engineering — but here the
-portfolio is itself the demonstration. The user explicitly asked for "academic Clean Architecture,
-parfaite". The structure must be readable at first glance by someone reviewing the repository
-during admissions or hiring.
+Ce portfolio appartient à Yohan Finelle, étudiant en BUT Informatique qui souhaite démontrer
+une **rigueur architecturale** auprès des recruteurs et des écoles d'ingénieurs (cycle ingénieur).
+Stricto sensu, un site CV de 5 pages est suffisamment petit pour qu'une « Clean Architecture »
+soit du sur-dimensionnement — mais ici, le portfolio est lui-même la démonstration. La structure
+doit être lisible au premier coup d'œil par quelqu'un qui parcourt le dépôt lors d'une admission
+ou d'un recrutement.
 
-## Decision
+## Décision
 
-Apply a 4-layer Clean Architecture inside `src/lib/`:
+Appliquer une Clean Architecture à 4 couches dans `src/lib/` :
 
-- `domain/` — pure entities, value-objects, errors, and the `Result` type. No framework imports.
-- `application/` — use cases and ports (interfaces) that the domain layer needs.
-- `infrastructure/` — concrete adapters: filesystem markdown, SQLite via Drizzle, Resend email,
-  system clock.
-- `presentation/` — view-models and mappers that transform domain entities into JSON-serializable
-  payloads for SvelteKit loaders.
+- `domain/` — entités, value-objects, erreurs et le type `Result`. Aucun import de framework.
+- `application/` — use cases et ports (interfaces) dont la couche domaine a besoin.
+- `infrastructure/` — adaptateurs concrets : markdown sur le système de fichiers.
+- `presentation/` — view-models et mappers qui transforment les entités du domaine en charges
+  utiles JSON pour les loaders SvelteKit.
 
-`src/routes/` is treated as an **extension** of the presentation layer (file-based routing forced
-by SvelteKit, see ADR 0005). Dependencies point inward only. Use cases never import infrastructure
-or routes. The composition root (`src/lib/composition-root.ts`) wires the concrete implementations.
+`src/routes/` est traité comme une **extension** de la couche présentation (routage par
+système de fichiers imposé par SvelteKit, voir ADR 0005). Les dépendances pointent toujours
+vers l'intérieur. Les use cases n'importent jamais l'infrastructure ni les routes. Le
+composition root (`src/lib/composition-root.ts`) câble les implémentations concrètes.
 
-## Consequences
+## Conséquences
 
-- Pro: clear boundaries, testable use cases (in-memory fakes), recruiters see academic rigor at
-  first glance.
-- Pro: swapping infrastructure (e.g., SQLite → PostgreSQL, Resend → SMTP) only touches one layer.
-- Con: more files than a "naive" SvelteKit app. View-models + mappers add a layer of indirection
-  that a 2-page CV would skip.
-- Rejected: a flat structure (everything in `src/lib/`) — would make the domain logic invisible
-  and defeat the stated purpose.
-- Rejected: a 3-layer split (no presentation) — view-models are necessary because SvelteKit
-  serializes loaders' return value to JSON; classes (`Project`, `DateRange`) don't survive the
-  JSON round-trip.
-
-See `docs/superpowers/specs/2026-05-04-portfolio-design.md` and
-`docs/superpowers/plans/2026-05-04-portfolio-implementation.md` for more detail.
+- Pour : frontières claires, use cases testables (fakes en mémoire), les recruteurs perçoivent
+  immédiatement la rigueur académique.
+- Pour : remplacer une infrastructure (par ex. markdown → API headless) ne touche qu'une seule
+  couche.
+- Contre : plus de fichiers qu'une application SvelteKit « naïve ». Les view-models et mappers
+  ajoutent un niveau d'indirection qu'un CV de 2 pages ignorerait.
+- Rejeté : structure plate (tout dans `src/lib/`) — rendrait la logique métier invisible et
+  irait à l'encontre de l'objectif énoncé.
+- Rejeté : découpage en 3 couches (sans présentation) — les view-models sont nécessaires car
+  SvelteKit sérialise en JSON les valeurs renvoyées par les loaders ; les classes (`Project`,
+  `DateRange`) ne survivent pas à l'aller-retour JSON.
