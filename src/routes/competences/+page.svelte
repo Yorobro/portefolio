@@ -11,12 +11,12 @@
     {
       key: 'language',
       label: 'Langages',
-      description: 'Langages de programmation utilisés en projet ou en cours.',
+      description: "Les langages que j'utilise en projet ou en cours.",
     },
     {
       key: 'framework',
       label: 'Frameworks',
-      description: 'Frameworks et bibliothèques que je manipule.',
+      description: 'Les frameworks et bibliothèques avec lesquels je travaille.',
     },
     {
       key: 'database',
@@ -26,7 +26,7 @@
     {
       key: 'devops',
       label: 'DevOps',
-      description: 'Versionnage de code et chaînes CI/CD.',
+      description: 'Versionnage et chaînes CI/CD.',
     },
     {
       key: 'deployment',
@@ -35,7 +35,7 @@
     },
     {
       key: 'design',
-      label: 'Conception & design',
+      label: 'Conception et design',
       description: 'Outils de modélisation et de maquettage.',
     },
   ];
@@ -49,16 +49,16 @@
 </script>
 
 <svelte:head>
-  <title>Compétences — Yohan Finelle</title>
+  <title>Compétences - Yohan Finelle</title>
   <meta
     name="description"
-    content="Compétences techniques et personnelles de Yohan Finelle : langages, frameworks, bases de données, DevOps, design et soft skills."
+    content="Mes compétences : langages, frameworks, bases de données, DevOps, déploiement et conception."
   />
 </svelte:head>
 
 <header class="page-header">
   <h1>Compétences</h1>
-  <p class="subtitle">Mes compétences techniques et personnelles, regroupées par domaine.</p>
+  <p class="subtitle">Mes compétences techniques, regroupées par domaine.</p>
 </header>
 
 <div class="categories">

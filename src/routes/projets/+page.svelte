@@ -11,17 +11,17 @@
     {
       type: 'personal',
       label: 'Projets personnels',
-      description: 'Réalisations sur mon temps libre, exploratoires ou aboutis.',
+      description: 'Ce que je code sur mon temps libre, en exploration ou abouti.',
     },
     {
       type: 'academic',
       label: 'Projets universitaires',
-      description: 'Travaux d’équipe réalisés dans le cadre du BUT Informatique.',
+      description: "Travaux d'équipe réalisés dans le cadre du BUT Informatique.",
     },
     {
       type: 'competitive',
       label: 'Projets compétitifs',
-      description: 'Hackathons et concours, livrés sous contrainte de temps.',
+      description: 'Hackathons et concours, livrés sous pression de temps.',
     },
   ];
 
@@ -33,11 +33,11 @@
   );
 </script>
 
-<svelte:head><title>Projets — Yohan Finelle</title></svelte:head>
+<svelte:head><title>Projets - Yohan Finelle</title></svelte:head>
 
 <header class="page-header">
   <h1>Projets</h1>
-  <p class="subtitle">Une sélection de mes projets, regroupés par catégorie.</p>
+  <p class="subtitle">Ce que j'ai construit, regroupé par catégorie.</p>
 </header>
 
 <div class="categories">

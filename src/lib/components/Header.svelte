@@ -24,7 +24,7 @@
       {/each}
     </ul>
   </nav>
-  <StatusBadge label="Disponible · sept. 2026" />
+  <StatusBadge label="Disponible - sept. 2026" />
 </header>
 
 <style>

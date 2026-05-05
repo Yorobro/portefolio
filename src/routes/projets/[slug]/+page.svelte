@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-  <title>{p.title} — Yohan Finelle</title>
+  <title>{p.title} - Yohan Finelle</title>
   <meta name="description" content={p.summary} />
 </svelte:head>
 
