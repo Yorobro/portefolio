@@ -39,33 +39,34 @@
 </svelte:head>
 
 <section class="hero">
-  <StatusBadge label="Disponible - sept. 2026" />
-  <p class="display" aria-hidden="true">Yohan Finelle.</p>
-  <h1>Étudiant en développement logiciel - BUT Informatique, Bac+3.</h1>
-  <p class="subtitle">
-    Front, back, fullstack. Spécialisation architecture logicielle. Je cherche une alternance pour
-    entrer en cycle ingénieur (Bac+5) à la rentrée 2026, avec l'idée de devenir architecte logiciel.
-  </p>
-  <div class="ctas">
-    <Button href="/projets">Voir mes projets →</Button>
-    <Button href="/cv.pdf" variant="secondary">Télécharger le CV</Button>
+  <div class="hero-text">
+    <StatusBadge label="Disponible - sept. 2026" />
+    <p class="display" aria-hidden="true">Yohan Finelle.</p>
+    <h1>Étudiant en développement logiciel - BUT Informatique, Bac+3.</h1>
+    <p class="subtitle">
+      Front, back, fullstack. Spécialisation architecture logicielle. Je cherche une alternance pour
+      entrer en cycle ingénieur (Bac+5) à la rentrée 2026, avec l'idée de devenir architecte
+      logiciel.
+    </p>
+    <div class="ctas">
+      <Button href="/projets">Voir mes projets →</Button>
+      <Button href="/cv.pdf" variant="secondary">Télécharger le CV</Button>
+    </div>
   </div>
+  <img class="hero-photo" src="/images/yohan.jpg" alt="Yohan Finelle" />
 </section>
 
 <section class="about" aria-labelledby="about-title">
-  <img class="about-photo" src="/images/yohan.png" alt="Yohan Finelle" />
-  <div class="about-text">
-    <h2 id="about-title">À propos</h2>
-    <p>
-      Je suis en BUT Informatique à Dijon, je développe des applications depuis le lycée - du front,
-      du back, du fullstack. Ce qui me passionne vraiment, c'est l'architecture logicielle : comment
-      un projet reste lisible, testable et maintenable quand il grossit.
-    </p>
-    <p>
-      Je cherche une alternance qui me pousse sur ces sujets pour préparer mon cycle ingénieur en
-      2026. À terme, je veux faire de l'architecture logicielle mon métier.
-    </p>
-  </div>
+  <h2 id="about-title">À propos</h2>
+  <p>
+    Je suis en BUT Informatique à Dijon, je développe des applications depuis le lycée - du front,
+    du back, du fullstack. Ce qui me passionne vraiment, c'est l'architecture logicielle : comment
+    un projet reste lisible, testable et maintenable quand il grossit.
+  </p>
+  <p>
+    Je cherche une alternance qui me pousse sur ces sujets pour préparer mon cycle ingénieur en
+    2026. À terme, je veux faire de l'architecture logicielle mon métier.
+  </p>
 </section>
 
 <section>
@@ -95,7 +96,31 @@
   .hero {
     padding: var(--space-12) 0 var(--space-16);
     display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .hero-text {
+    display: grid;
     gap: var(--space-4);
+  }
+  .hero-photo {
+    width: 13rem;
+    height: 17rem;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    border: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-elevated);
+    justify-self: end;
+  }
+  @media (max-width: 40rem) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .hero-photo {
+      order: -1;
+      justify-self: start;
+    }
   }
   .display {
     font-size: clamp(2.75rem, 6vw, 4.5rem);
@@ -118,36 +143,14 @@
   }
   .about {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--space-6);
-    align-items: center;
-    margin-top: var(--space-8);
+    gap: var(--space-2);
     margin-bottom: var(--space-12);
   }
-  .about-photo {
-    width: 11rem;
-    height: 14.5rem;
-    border-radius: var(--radius-lg);
-    object-fit: cover;
-    border: 1px solid var(--color-border-subtle);
-    background: var(--color-bg-elevated);
+  .about h2 {
+    margin: 0 0 var(--space-2);
   }
-  .about-text {
-    display: grid;
-    gap: var(--space-2);
-  }
-  .about-text h2 {
-    margin: 0;
-  }
-  .about-text p {
+  .about p {
     color: var(--color-text-secondary);
-  }
-  @media (max-width: 30rem) {
-    .about {
-      grid-template-columns: 1fr;
-      justify-items: start;
-      gap: var(--space-4);
-    }
   }
   .grid {
     display: grid;

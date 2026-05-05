@@ -18,7 +18,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "serve": "node build/index.js --port 3000"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.3",
