@@ -104,4 +104,4 @@ skills:
     level: advanced
 ---
 
-Liste de mes compétences techniques et personnelles, organisées par domaine.
+Mes compétences techniques et personnelles, organisées par domaine.

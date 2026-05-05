@@ -1,7 +1,7 @@
 ---
 slug: aie
 title: A.I.E
-summary: Application WPF d'arbre généalogique en MVVM, développée en équipe de cinq avec une CI/CD GitHub Actions.
+summary: Appli WPF d'arbre généalogique en MVVM, faite en équipe de cinq avec une CI/CD GitHub Actions.
 type: academic
 status: finished
 featured: true
@@ -14,11 +14,11 @@ stack:
   - .NET
   - GitHub Actions
 highlights:
-  - Projet universitaire mené en équipe de cinq personnes
-  - Architecture MVVM (séparation Vue / ViewModel / Modèle)
+  - Projet universitaire en équipe de cinq
+  - Archi MVVM (Vue / ViewModel / Modèle bien séparés)
   - Visualisation interactive d'un arbre généalogique
   - CI/CD avec GitHub Actions
-  - Coordination en équipe via Git et workflow de pull requests
+  - Coordination via Git et workflow de pull requests
 media:
   - type: image
     src: /images/projects/aie/accueil.png
@@ -34,16 +34,16 @@ media:
     caption: Vue temporelle de l'arbre
 ---
 
-A.I.E est un projet universitaire mené à l'IUT en équipe de cinq personnes. L'objectif
-était de livrer une application WPF capable de représenter et de naviguer dans un arbre
-généalogique. L'utilisateur peut explorer les relations familiales, naviguer entre les
-générations et filtrer les branches.
+A.I.E, c'est un projet uni mené à l'IUT en équipe de cinq. L'objectif :
+livrer une appli WPF capable de représenter et de naviguer dans un arbre
+généalogique. L'utilisateur peut explorer les relations familiales, sauter
+de génération en génération et filtrer les branches.
 
-Nous avons appliqué une architecture MVVM : la couche Vue se limite au binding XAML,
-les ViewModels exposent l'état observable et les commandes, et les modèles décrivent
-la structure généalogique sans rien savoir de l'affichage. Cette séparation nous a
-permis de paralléliser le travail en équipe.
+On a appliqué MVVM proprement : la Vue se limite au binding XAML, les
+ViewModels exposent l'état observable et les commandes, les modèles décrivent
+la structure généalogique sans rien savoir de l'affichage. Cette séparation
+nous a permis de bosser en parallèle sans se marcher dessus.
 
-Côté outillage, nous avons mis en place une chaîne CI/CD avec GitHub Actions : à
-chaque pull request, le workflow déclenche le build et les tests, ce qui sécurise
-l'intégration des contributions des cinq développeurs.
+Côté outillage, on a mis en place une CI/CD avec GitHub Actions : à chaque
+pull request, le workflow lance le build et les tests, ce qui sécurise les
+contributions de cinq développeurs qui poussent en parallèle.

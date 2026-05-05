@@ -1,7 +1,7 @@
 ---
 slug: vanice
 title: Vanice
-summary: Mod technique endgame pour Minecraft développé en Kotlin sur NeoForge, en équipe de deux.
+summary: Mod technique endgame pour Minecraft, écrit en Kotlin sur NeoForge, en équipe de deux.
 type: personal
 status: in-progress
 featured: false
@@ -20,15 +20,17 @@ highlights:
 media: []
 ---
 
-Vanice est un mod technique pour Minecraft conçu pour la phase endgame du jeu, développé
-en équipe de deux. Il s'adresse aux joueurs déjà familiers des grands mods techniques et
-ajoute des mécaniques poussées : un système de stockage d'items, un réseau de câbles de
-transport, une progression par tiers de machines, et des panneaux solaires pour
-l'alimentation en énergie.
+Vanice, c'est un mod technique pour Minecraft pensé pour la phase endgame du
+jeu, qu'on développe à deux. Il s'adresse aux joueurs déjà habitués aux gros
+mods techniques et ajoute des mécaniques poussées : un système de stockage
+d'items, un réseau de câbles de transport, une progression par tiers de
+machines, et des panneaux solaires pour produire de l'énergie.
 
-Le mod est écrit en Kotlin sur l'API NeoForge. Le code est organisé pour garder une
-séparation claire entre les blocs et machines, les systèmes transversaux (énergie,
-stockage, transport) et les couches d'intégration au moteur du jeu.
+Le mod est écrit en Kotlin sur l'API NeoForge. Le code est organisé pour
+garder une vraie séparation entre les blocs et machines, les systèmes
+transversaux (énergie, stockage, transport) et les couches d'intégration au
+moteur du jeu.
 
-Le projet est encore en cours et le repo est privé. Des screenshots, gifs et
-démonstrations vidéo des machines déjà fonctionnelles sont disponibles sur demande.
+Le projet est encore en cours et le repo est privé. Si vous voulez voir des
+screenshots, des gifs ou une démo vidéo des machines déjà fonctionnelles, je
+peux vous les envoyer sur demande.

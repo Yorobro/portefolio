@@ -1,7 +1,7 @@
 ---
 slug: deardiary
 title: DearDiary
-summary: Application personnelle de journal intime et de suivi de contacts, fullstack Spring Boot + Angular.
+summary: Mon appli de journal intime et de suivi de contacts. Fullstack Spring Boot et Angular, conçue en solo.
 type: personal
 status: finished
 featured: true
@@ -20,21 +20,22 @@ stack:
 highlights:
   - Architecture hexagonale côté Spring Boot
   - Clean Architecture côté Angular
-  - Atomic Design rigoureux côté front
-  - State management avec NgRx Signals
-  - Containerisation Docker pour un déploiement reproductible
+  - Atomic Design pour le découpage des composants
+  - Gestion d'état avec NgRx Signals
+  - Conteneurisation Docker pour un déploiement reproductible
   - Migrations DB versionnées avec Flyway
 architecture: |
-  Côté **back**, l'application suit une architecture hexagonale stricte. La couche
-  domaine contient les vraies entités métier (entries, contacts) avec leur
-  comportement et leurs invariants. Les use-cases applicatifs s'appuient sur des
-  ports — interfaces que les adapters d'infrastructure (JPA, REST) implémentent.
+  Côté **back**, j'ai poussé l'archi hexagonale jusqu'au bout. La couche
+  domaine porte les vraies entités métier (entries, contacts) avec leur
+  comportement et leurs invariants. Les use-cases s'appuient sur des
+  ports, et les adapters d'infra (JPA, REST) viennent les implémenter.
 
-  Côté **front**, j'ai appliqué la Clean Architecture. La différence avec le
-  back est volontaire : ici les modèles du domaine sont des entités anémiques,
-  qui ne portent que de la donnée. La logique vit dans les use-cases, et la
-  couche présentation est structurée en Atomic Design (atomes, molécules,
-  organismes, templates, pages). NgRx Signals gère l'état applicatif.
+  Côté **front**, j'ai voulu tester une autre approche : Clean Architecture
+  avec des modèles de domaine anémiques (porteurs de données uniquement),
+  toute la logique dans les use-cases, et une présentation structurée en
+  Atomic Design (atomes, molécules, organismes, templates, pages). NgRx
+  Signals gère l'état applicatif. La différence avec le back est volontaire :
+  je voulais voir comment ça tient sur deux philosophies différentes.
 media:
   - type: image
     src: /images/projects/deardiary/login.png
@@ -54,14 +55,16 @@ media:
     caption: Gestion des types de relations
 ---
 
-DearDiary est une application personnelle de journal intime couplée à un gestionnaire de
-contacts. L'utilisateur écrit des entrées quotidiennes pour conserver une trace de ses
-journées, et tient en parallèle un carnet de relations qu'il peut croiser avec son journal.
+DearDiary, c'est mon appli perso de journal intime, couplée à un gestionnaire
+de contacts. L'idée : écrire ses entrées au quotidien pour garder une trace
+de ses journées, et tenir en parallèle un carnet de relations qu'on peut
+croiser avec son journal.
 
-J'ai conçu et développé l'application en autonomie, en choisissant Spring Boot et Angular
-pour me forcer à appliquer une vraie discipline architecturale sur les deux côtés. Le
-projet m'a servi à mettre en pratique l'architecture hexagonale côté serveur et la Clean
-Architecture côté client.
+Je l'ai conçue et développée seul, et j'ai volontairement choisi Spring Boot
+et Angular pour me forcer à appliquer une vraie discipline d'archi des deux
+côtés. C'est le projet sur lequel j'ai mis le plus de soin sur la structure
+du code : hexagonal côté serveur, Clean Architecture côté client, Atomic
+Design pour le découpage front.
 
-Le tout est containerisé avec Docker Compose pour un déploiement reproductible, et les
-migrations de schéma sont versionnées via Flyway.
+Le tout tourne dans Docker Compose pour que je puisse le redéployer
+n'importe où sans souci, et les migrations DB sont versionnées avec Flyway.
